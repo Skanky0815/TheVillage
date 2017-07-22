@@ -31,6 +31,7 @@ public class Player extends Unit {
         backpack = new HashMap<ResourcesType, Integer>();
         backpack.put(ResourcesType.GOLD, 20);
         backpack.put(ResourcesType.WOOD, 40);
+        backpack.put(ResourcesType.GRAIN, 10);
 
         buildableList = GamePanel.buildableList;
 

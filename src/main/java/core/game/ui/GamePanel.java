@@ -92,9 +92,9 @@ public class GamePanel extends Screen implements ActionListener {
 		final ArrayList<Blueprint> resourceBuildings = new ArrayList<Blueprint>();
 		resourceBuildings.add(Warehouse.getBlueprint());
 		resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.WOOD));
-        resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.GOLD));
+		resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.GOLD));
 
-        buildableList = new ArrayList<ArrayList<Blueprint>>();
+		buildableList = new ArrayList<ArrayList<Blueprint>>();
         buildableList.add(natureBuildings);
         buildableList.add(civilBuildings);
         buildableList.add(resourceBuildings);
@@ -163,7 +163,7 @@ public class GamePanel extends Screen implements ActionListener {
 				}
 			}
 
-			this.inventoryService.update();
+			this.inventoryService.update(player);
 		}
 	}
 

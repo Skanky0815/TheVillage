@@ -6,8 +6,8 @@ import core.engine.services.TranslateService;
 import core.engine.services.setup.ItemService;
 import core.game.item.Resource;
 import core.game.item.ResourcesType;
-import core.game.ui.GamePanel;
 import core.game.ui.Inventory;
+import core.game.unit.Player;
 import core.helper.Config;
 import org.apache.log4j.Logger;
 
@@ -40,7 +40,7 @@ public class InventoryService extends AbstractService implements InterfaceRender
         this.translator = translator;
         this.itemService = itemService;
         this.ui = ui;
-        this.itemList = new ArrayList<ResourcesType>();
+        this.itemList = new ArrayList<>();
         this.ui.setInventoryService(this);
     }
 
@@ -48,8 +48,8 @@ public class InventoryService extends AbstractService implements InterfaceRender
         return this.ui;
     }
 
-    public void update() {
-        for (final Map.Entry<ResourcesType, Integer> e : GamePanel.player.getBackpack().entrySet()) {
+    public void update(final Player player) {
+        for (final Map.Entry<ResourcesType, Integer> e : player.getBackpack().entrySet()) {
             itemList.add(e.getKey());
         }
     }
@@ -60,7 +60,7 @@ public class InventoryService extends AbstractService implements InterfaceRender
         }
 
         if (item < 0) {
-            item = this.getItemCount() - item;
+            item = this.getItemCount() + item;
         }
 
         return this.itemService.getItem(itemList.get(item));
