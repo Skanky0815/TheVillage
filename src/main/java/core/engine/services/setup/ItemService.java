@@ -8,43 +8,63 @@ import core.game.item.ResourcesType;
 import core.helper.Config;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by RICO on 04.04.2015.
+ *
+ * The ItemService class load all resources xml files form the resources and generate a HashMap with representing
+ * Resource classes
  */
 @Singleton
-public class ItemService extends AbstractSetupService implements InterfaceSetupService {
+public class ItemService extends AbstractSetupService {
 
+    /**
+     * A HashMap with all Resources with the ResourceType as Key
+     */
     private HashMap<ResourcesType, Resource> resourceHashMap;
 
+    /**
+     * The Constructor
+     *
+     * @param log               The logging class
+     * @param config            The game config class
+     * @param xmlReaderService  The service to load the xml files
+     */
     @Inject
     public ItemService(Logger log, Config config, XMLReaderService xmlReaderService) {
         super(log, config, xmlReaderService);
 
-        this.resourceHashMap = new HashMap<ResourcesType, Resource>();
+        this.resourceHashMap = new HashMap<>();
 
-        this.setup();
+        this.init();
     }
 
-    public void setup() {
-        final ArrayList<Object> items  = this.xmlReaderService.loadAllXml("items/resources/", Resource.class);
-
-        for (final Object o: items) {
-            if (o instanceof Resource) {
-                final Resource resource = (Resource) o;
-                this.resourceHashMap.put(resource.getType(), resource);
-            }
-        }
-    }
-
+    /**
+     * Return the Resource with is represented by the given key
+     *
+     * @param key The ResourcesType with is use as key
+     *
+     * @return The founded Resource or null if not found
+     */
     public Resource getItem(ResourcesType key) {
         if (resourceHashMap.containsKey(key)) {
-            return this.resourceHashMap.get(key);
+            return resourceHashMap.get(key);
         }
 
         log.debug("Not item found for " + key.name());
         return null;
+    }
+
+    /**
+     * This method load all resources form the resources dir and store them into the local HashMap
+     */
+    private void init() {
+        for (final Object o: xmlReaderService.loadAllXml("items/resources/", Resource.class)) {
+            if (o instanceof Resource) {
+                final Resource resource = (Resource) o;
+                resourceHashMap.put(resource.getType(), resource);
+            }
+        }
     }
 }

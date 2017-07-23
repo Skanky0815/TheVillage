@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 /**
  * Created by RICO on 04.04.2015.
  */
-abstract class AbstractSetupService extends AbstractService implements InterfaceSetupService {
+abstract class AbstractSetupService extends AbstractService {
 
     final XMLReaderService xmlReaderService;
 
