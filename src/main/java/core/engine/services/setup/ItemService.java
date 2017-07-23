@@ -60,10 +60,9 @@ public class ItemService extends AbstractSetupService {
      * This method load all resources form the resources dir and store them into the local HashMap
      */
     private void init() {
-        for (final Object o: xmlReaderService.loadAllXml("items/resources/", Resource.class)) {
-            if (o instanceof Resource) {
-                final Resource resource = (Resource) o;
-                resourceHashMap.put(resource.getType(), resource);
+        for (final Object resource: xmlReaderService.loadAllXml("items/resources/", Resource.class)) {
+            if (resource instanceof Resource) {
+                resourceHashMap.put(((Resource) resource).getType(), (Resource) resource);
             }
         }
     }
