@@ -32,7 +32,7 @@ public class ItemService extends AbstractSetupService {
      * @param xmlReaderService  The service to load the xml files
      */
     @Inject
-    ItemService(Logger log, Config config, XMLReaderService xmlReaderService) {
+    ItemService(final Logger log, final Config config, final XMLReaderService xmlReaderService) {
         super(log, config, xmlReaderService);
 
         this.resourceHashMap = new HashMap<>();
