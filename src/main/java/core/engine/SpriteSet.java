@@ -2,7 +2,6 @@ package core.engine;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -14,7 +13,7 @@ public class SpriteSet {
 
     private static SpriteSet instance = new SpriteSet();
 
-    private Vector<Sprite> actors = new Vector<Sprite>(100, 10);
+    private Vector<Sprite> actors = new Vector<>(100, 10);
 
     public static SpriteSet getInstance() {
         return SpriteSet.instance;
@@ -37,16 +36,17 @@ public class SpriteSet {
 
     public void removeActor(final Sprite sprite) {
         actors.remove(sprite);
-        this.sort();
+        sort();
     }
 
     public void addActor(final Sprite sprite) {
         actors.add(sprite);
-        this.sort();
+        sort();
     }
 
+    @SuppressWarnings("unchecked")
     public <T> List<T> getActorsByClass(final Class<T> ofClass) {
-        final List<T> tList = new ArrayList<T>();
+        final List<T> tList = new ArrayList<>();
         for (final Sprite sprite : actors) {
             if (ofClass.isInstance(sprite)) {
                 tList.add((T) sprite);
@@ -57,14 +57,14 @@ public class SpriteSet {
 
     public <T extends Sprite> T getClosestActor(final Point position, final Class<T> targetClass) {
         T temp = null;
-        for (final T sprite : this.getActorsByClass(targetClass)) {
-            if (temp == null) {
+        for (final T sprite : getActorsByClass(targetClass)) {
+            if (null == temp) {
                 temp = sprite;
                 continue;
             }
 
-            final double v1 = this.calculateValue(position, temp.getPosition());
-            final double v2 = this.calculateValue(position, sprite.getPosition());
+            final double v1 = calculateValue(position, temp.getPosition());
+            final double v2 = calculateValue(position, sprite.getPosition());
             if (v1 > v2) {
                 temp = sprite;
             }
@@ -80,6 +80,6 @@ public class SpriteSet {
     }
 
     private void sort() {
-        Collections.sort(actors, SpriteXAxisSorter.getInstance());
+        actors.sort(SpriteXAxisSorter.getInstance());
     }
 }
