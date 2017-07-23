@@ -35,9 +35,9 @@ public class ItemService extends AbstractSetupService {
     ItemService(final Logger log, final Config config, final XMLReaderService xmlReaderService) {
         super(log, config, xmlReaderService);
 
-        this.resourceHashMap = new HashMap<>();
+        resourceHashMap = new HashMap<>();
 
-        this.init();
+        init();
     }
 
     /**

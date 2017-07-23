@@ -23,7 +23,7 @@ public class TranslateService extends AbstractService {
     private ResourceBundle resourceBundle;
 
     @Inject
-    public TranslateService(Logger log, Config config) {
+    public TranslateService(final Logger log, final Config config) {
         super(log, config);
 
         init();
@@ -31,24 +31,24 @@ public class TranslateService extends AbstractService {
 
     private void init() {
         final Locale locale = new Locale(config.getProperty(PropertyName.APP_LANGUAGE));
-        this.resourceBundle = PropertyResourceBundle.getBundle("translations.Main", locale);
+        resourceBundle = PropertyResourceBundle.getBundle("translations.Main", locale);
     }
 
     public String translate(final String key) {
-        return this.translate(this.resourceBundle, key);
+        return translate(resourceBundle, key);
     }
 
     public String translate(final ResourceBundle resourceBundle, final String key) {
-        if (resourceBundle != null) {
+        if (null != resourceBundle) {
             try {
                 return resourceBundle.getString(key);
-            } catch (final MissingResourceException e) {
-                this.log.info("missing key!");
+            } catch (final MissingResourceException ignore) {
+                log.info("missing key!");
                 return  INDICATOR_MISSING_KEY + key;
             }
         }
 
-        this.log.info("could not fond translation for '" + key + "'!");
+        log.info("could not find translation for '" + key + "'!");
         return INDICATOR_MISSING_RESOURCE;
     }
 }
