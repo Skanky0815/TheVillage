@@ -10,8 +10,6 @@ import core.helper.Config;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.mockito.ArgumentMatchers;
 
 import java.util.HashMap;
 import java.util.Map;
