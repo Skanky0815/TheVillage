@@ -79,18 +79,11 @@ public class InventoryServiceTest {
         final Resource resourceWoodStub = mock(Resource.class);
         final Resource resourceFoodStub = mock(Resource.class);
 
-        when(itemServiceMock.getItem(argThat(argument -> {
-            if (argument.equals(ResourcesType.GOLD)) {
-                return true;
-            }
-            if (argument.equals(ResourcesType.WOOD)) {
-                return true;
-            }
-            if (argument.equals(ResourcesType.FOOD)) {
-                return true;
-            }
-            return false;
-        }))).thenReturn(resourceGoldStub, resourceWoodStub, resourceFoodStub, resourceGoldStub, resourceGoldStub);
+        when(itemServiceMock.getItem(argThat(argument ->
+                argument.equals(ResourcesType.GOLD)
+                || argument.equals(ResourcesType.WOOD)
+                || argument.equals(ResourcesType.FOOD))))
+            .thenReturn(resourceGoldStub, resourceWoodStub, resourceFoodStub, resourceGoldStub, resourceGoldStub);
 
         assertEquals("0 Item should be Gold", resourceGoldStub, inventoryService.getResource(0));
         assertEquals("1 Item should be Wood",resourceWoodStub, inventoryService.getResource(1));
