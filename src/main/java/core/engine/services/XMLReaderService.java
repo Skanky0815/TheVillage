@@ -25,13 +25,13 @@ public class XMLReaderService extends AbstractService {
     }
 
     public ArrayList<Object> loadAllXml(final String filePath, final Class className) {
-        final File folder = new File(this.rootPath + filePath);
+        final File folder = new File(rootPath + filePath);
         if (!folder.isDirectory()) {
-            this.log.error("Given path '" + filePath + "' is not a folder or do not exists!");
+            log.error("Given path '" + filePath + "' is not a folder or do not exists!");
             return null;
         }
 
-        final ArrayList<Object> objects = new ArrayList<Object>();
+        final ArrayList<Object> objects = new ArrayList<>();
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isFile()) {
                 objects.add(this.loadXml(fileEntry, className));
@@ -41,22 +41,21 @@ public class XMLReaderService extends AbstractService {
         return objects;
     }
 
-    public Object loadXml(final File file, final Class className) {
+    private Object loadXml(final File file, final Class className) {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(className);
+            final JAXBContext jaxbContext = JAXBContext.newInstance(className);
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
             return unmarshaller.unmarshal(file);
         } catch (JAXBException e) {
-            this.log.error(e);
-            this.log.error("Could not load the given file '" + file.getAbsolutePath() + "'!");
+            log.error(e);
+            log.error("Could not load the given file '" + file.getAbsolutePath() + "'!");
         }
 
         return null;
     }
 
     public Object loadXml(final String filePath, final Class className) {
-        final File file =  new File(this.rootPath + filePath);
-        return this.loadXml(file, className);
+        return loadXml(new File(this.rootPath + filePath), className);
     }
 }
