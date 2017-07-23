@@ -64,19 +64,19 @@ public class MyAStar {
 
 		@Override
 		public String toString() {
-			return this.getClass().getName() + "@[position=" + position.x + "|"
+			return getClass().getName() + "@[position=" + position.x + "|"
 					+ position.y + ", moveTo=" + moveTo + ", parent=" + parent + "]";
 		}
 
         public boolean hasParent() {
-            return parent != null;
+            return null != parent;
         }
 	}
 
 	public static Node getPathInArray(final Point goal, final Unit unit) throws InterruptedException {
 
-		final List<Node> openList = new Vector<Node>();
-		final List<Node> closedList = new Vector<Node>();
+		final List<Node> openList = new Vector<>();
+		final List<Node> closedList = new Vector<>();
 
         final MapBuilder mapBuilder = MapBuilder.getInstance();
 		final Cell startCell = mapBuilder.getCellByPoint(goal);
@@ -87,7 +87,7 @@ public class MyAStar {
 			final Node node = getLastF(openList);
 			openList.remove(node);
 
-			final Vector<Node> successors = new Vector<Node>();
+			final Vector<Node> successors = new Vector<>();
 
 			for (final MoveTo moveTo : MoveTo.values()) {
 				MyAStar.testNextNode(node, moveTo, successors, unit.getPosition());
@@ -147,7 +147,7 @@ public class MyAStar {
 	private static Node getLastF(final List<Node> openList) {
 		Node last = null;
 		for (final Node node : openList) {
-			if ((last == null) || (node.getF() < last.getF())) {
+			if ((null == last) || (node.getF() < last.getF())) {
 				last = node;
 			}
 		}

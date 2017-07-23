@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+import com.google.inject.Inject;
 import core.control.BuildMenuControl;
 import core.engine.Drawable;
 import core.game.item.Resource;
@@ -20,40 +21,28 @@ import core.helper.ImageLoader;
 public class BuildMenu extends Rectangle2D.Double implements Drawable {
 
 	private static final long serialVersionUID = 1L;
-
-	private static BuildMenu instance;
 	
-	private BuildMenuControl buildmenuControl;
-	
-	private Resources resources;
-	
-	private Map<String, BufferedImage[]> guiImage;
-	
-	private GameFont gameFont;
-	
+	private final BuildMenuControl buildmenuControl;
+	private final Resources resources;
+	private final GameFont gameFont;
+	private final Map<String, BufferedImage[]> guiImage;
 
 	private int buildingTyp;
 
 	private int building;
 
-	private BuildMenu() {
+	@Inject
+	private BuildMenu(final BuildMenuControl buildMenuControl) {
         width = 150;
         height = 50;
 
         buildingTyp = 0;
         building = 0;
 
-        buildmenuControl = BuildMenuControl.getInstance();
+        this.buildmenuControl = buildMenuControl;
         resources = Resources.getInstance();
         guiImage = ImageLoader.getBuildMenuGUI();
         gameFont = GameFont.getInstance();
-	}
-
-	public static BuildMenu getInstance() {
-		if (instance == null) {
-            instance = new BuildMenu();
-		}
-		return instance;
 	}
 
 	private Blueprint getBlueprint() {
@@ -80,27 +69,27 @@ public class BuildMenu extends Rectangle2D.Double implements Drawable {
 	}
 	
 	private void getInfobox(final Graphics g) {
-		Rectangle2D.Double infobox = new Rectangle2D.Double(x + 50, y + 50, 50, 100);
-		int x = (int) (infobox.x - 25);
-		int headTypoX = (int) (infobox.x - 20);
-		int typoX = (int) (infobox.x + 2);
-		int resourceIconX = (int) (infobox.x - 20);
+		final Rectangle2D.Double infobox = new Rectangle2D.Double(x + 50, y + 50, 50, 100);
+		final int x = (int) (infobox.x - 25);
+		final int headTypoX = (int) (infobox.x - 20);
+		final int typoX = (int) (infobox.x + 2);
+		final int resourceIconX = (int) (infobox.x - 20);
 		
-		Blueprint blueprint = this.getBlueprint();
+		final Blueprint blueprint = getBlueprint();
 	
 		g.drawImage(blueprint.getIcon()[0], (int) infobox.x, (int) y, null);
 
 		g.setColor(Color.BLACK);
 		
-		g.setFont(this.gameFont.getFont(GameFontTyp.INFOBOX_HEADLINE));
-		g.drawImage(this.guiImage.get("infobox_top")[0], x, (int) infobox.y, null);
+		g.setFont(gameFont.getFont(GameFontTyp.INFOBOX_HEADLINE));
+		g.drawImage(guiImage.get("infobox_top")[0], x, (int) infobox.y, null);
 		g.drawString(blueprint.getName(), headTypoX, (int) infobox.y + 18);
 		
 		int loopY = (int) infobox.y + 21;
-		g.setFont(this.gameFont.getFont(GameFontTyp.INFOBOX));
-		BufferedImage centerPic = this.guiImage.get("infobox_center")[0];
+		g.setFont(gameFont.getFont(GameFontTyp.INFOBOX));
+		BufferedImage centerPic = guiImage.get("infobox_center")[0];
 		for (final Map.Entry<ResourcesType, Integer> price : blueprint.getPriceList().entrySet()) {
-			Resource resource = this.resources.getResource(price.getKey());
+			Resource resource = resources.getResource(price.getKey());
 			
 			if (GamePanel.player.canBuild(price.getKey(), price.getValue())) {
 				g.setColor(Color.BLACK);
@@ -127,7 +116,7 @@ public class BuildMenu extends Rectangle2D.Double implements Drawable {
         x = GamePanel.player.getX() - 50;
         y = GamePanel.player.getY() + 50;
 		
-		g.drawImage(this.guiImage.get("background")[0], (int) x, (int) y, null);
+		g.drawImage(guiImage.get("background")[0], (int) x, (int) y, null);
 		
 		try {
 			g.drawImage(GamePanel.buildableList.get(buildingTyp - 1).get(0).getIcon()[1], (int) x, (int) y, null);
@@ -157,7 +146,7 @@ public class BuildMenu extends Rectangle2D.Double implements Drawable {
 		}
 		
 		try {
-			this.getInfobox(g);
+			getInfobox(g);
 		} catch(IndexOutOfBoundsException ignored) { }
 		
 		g.drawImage(guiImage.get("selection")[0], (int) (x + 50), (int) y, null);

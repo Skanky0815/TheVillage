@@ -8,8 +8,8 @@ import java.util.List;
 public class StringBreaker {
 
 	public static List<String> beakString(final String str, final int maxPix, final Graphics g) {
-		final List<List<String>> allLines = new ArrayList<List<String>>();
-		allLines.add(new ArrayList<String>());
+		final List<List<String>> allLines = new ArrayList<>();
+		allLines.add(new ArrayList<>());
 
 		int countedPix = 0;
 		for (final String word : str.split(" ")) {
@@ -20,23 +20,23 @@ public class StringBreaker {
 			countedPix += stringPix;
 			
 			if (countedPix > maxPix) {
-				allLines.add(new ArrayList<String>());
+				allLines.add(new ArrayList<>());
 				countedPix = stringPix;
 			}
 
-			List<String> lastLine = allLines.get(allLines.size() - 1);
+			final List<String> lastLine = allLines.get(allLines.size() - 1);
 			lastLine.add(word);
 			countedPix += fm.stringWidth(" ");
 		}
 		
-		final List<String> out = new ArrayList<String>();
-		String line = "";
+		final List<String> out = new ArrayList<>();
+		StringBuilder line = new StringBuilder();
 		for (final List<String> stringLine : allLines) {
 			for (final String word : stringLine) {
-				line += " " + word;
+				line.append(" ").append(word);
 			}
-			out.add(line);
-			line = "";
+			out.add(line.toString());
+			line = new StringBuilder();
 		}
 		return out;
 	}

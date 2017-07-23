@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import com.google.inject.Inject;
 import core.control.DialogControl;
 import core.game.dialog.Dialog;
 import core.game.dialog.Dialog.Action;
@@ -13,9 +14,7 @@ import core.game.unit.NonPlayerCharacter;
 
 public class DialogBox extends Rectangle2D.Double implements Drawable {
 
-	private static DialogBox instance;
-
-	private DialogControl dialogControl;
+	private final DialogControl dialogControl;
 
 	private boolean isShowed;
 
@@ -25,20 +24,14 @@ public class DialogBox extends Rectangle2D.Double implements Drawable {
 
 	private int currentOption;
 
-	private DialogBox() {
-        width = 300;
-        height = 100;
-        currentOption = 0;
+	@Inject
+	private DialogBox(final DialogControl dialogControl) {
+		this.dialogControl = dialogControl;
+		width = 300;
+		height = 100;
+		currentOption = 0;
 
-        isShowed = false;
-        dialogControl = DialogControl.getInstance();
-	}
-
-	public static DialogBox getInstance() {
-		if (instance == null) {
-			instance = new DialogBox();
-		}
-		return instance;
+		isShowed = false;
 	}
 
 	public void setDialog() {

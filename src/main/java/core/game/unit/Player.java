@@ -28,14 +28,14 @@ public class Player extends Unit {
 		super(position);
 
         orientation = MoveTo.S;
-        backpack = new HashMap<ResourcesType, Integer>();
+        backpack = new HashMap<>();
         backpack.put(ResourcesType.GOLD, 20);
         backpack.put(ResourcesType.WOOD, 40);
         backpack.put(ResourcesType.GRAIN, 10);
 
         buildableList = GamePanel.buildableList;
 
-        this.setUnitPics(ImageLoader.getPlayerImages());
+        setUnitPics(ImageLoader.getPlayerImages());
 	}
 
     @Override
@@ -142,14 +142,14 @@ public class Player extends Unit {
 
     @Override
 	public String toString() {
-		String str = this.getClass().getName() + "@[";
+		StringBuilder str = new StringBuilder(this.getClass().getName() + "@[");
 
-		str += "Backpack=";
+		str.append("Backpack=");
 		for (final Map.Entry<ResourcesType, Integer> e : backpack.entrySet()) {
-			str += e.getKey() + "::" + e.getValue() + ",";
+			str.append(e.getKey()).append("::").append(e.getValue()).append(",");
 		}
-		str += ",position=" + this.getPosition().x + "|" + this.getPosition().y + "]";
+		str.append(",position=").append(this.getPosition().x).append("|").append(this.getPosition().y).append("]");
 
-		return str;
+		return str.toString();
 	}
 }

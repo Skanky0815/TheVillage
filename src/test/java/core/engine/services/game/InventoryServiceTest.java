@@ -27,8 +27,6 @@ public class InventoryServiceTest {
 
     private Config configMock;
 
-    private TranslateService translateServiceMock;
-
     private ItemService itemServiceMock;
 
     private Inventory inventoryMock;
@@ -37,7 +35,6 @@ public class InventoryServiceTest {
     public void setup() {
         logMock = mock(Logger.class);
         configMock = mock(Config.class);
-        translateServiceMock = mock(TranslateService.class);
         itemServiceMock = mock(ItemService.class);
         inventoryMock = mock(Inventory.class);
     }
@@ -93,7 +90,7 @@ public class InventoryServiceTest {
     }
 
     private InventoryService createService() {
-        return new InventoryService(logMock, configMock, translateServiceMock, itemServiceMock, inventoryMock);
+        return new InventoryService(logMock, configMock, itemServiceMock, inventoryMock);
     }
 
 }

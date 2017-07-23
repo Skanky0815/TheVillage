@@ -1,26 +1,21 @@
 package core.control;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import core.engine.Integrable;
 import core.engine.Sprite;
 import core.engine.SpriteSet;
 import core.game.structures.environment.Collectable;
 import core.game.ui.GamePanel;
 
+@Singleton
 public final class ActionControl {
 
-	private static ActionControl instance;
+	private final GameKeyListener keyListener;
 
-	private GameKeyListener keyListener;
-
-	private ActionControl() {
-		keyListener = GameKeyListener.getInstance();
-	}
-
-	public static ActionControl getInstance() {
-		if (instance == null) {
-			instance = new ActionControl();
-		}
-		return instance;
+	@Inject
+	private ActionControl(final GameKeyListener keyListener) {
+		this.keyListener = keyListener;
 	}
 
 	public boolean doAction() {

@@ -1,14 +1,16 @@
 package core.control;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import core.game.ui.DialogBox;
 import core.helper.GuiDebugger;
 
+@Singleton
 public class InterfaceControl {
 
-	private static InterfaceControl instance;
-	
-	private GameKeyListener keyListener;
-	
+	private final GameKeyListener keyListener;
+	private final DialogBox dialogBox;
+
 	private boolean showInventory = false;
 
 	private boolean showBuildmenu = false;
@@ -16,18 +18,13 @@ public class InterfaceControl {
 	private boolean showDialogBox = false;
 
     private boolean showDebuggingBox = false;
-	
-	private InterfaceControl() {
-        keyListener = GameKeyListener.getInstance();
+
+    @Inject
+	private InterfaceControl(final GameKeyListener keyListener, final DialogBox dialogBox) {
+        this.keyListener = keyListener;
+		this.dialogBox = dialogBox;
 	}
 
-	public static InterfaceControl getInstance() {
-		if (instance == null) {
-			instance = new InterfaceControl();
-		}
-		return instance;
-	}
-	
 	public boolean isShowInventory() {
 		return showInventory;
 	}
@@ -59,7 +56,7 @@ public class InterfaceControl {
 			showBuildmenu = false;
 		}
 		
-		if (DialogBox.getInstance().isShowed()) {
+		if (dialogBox.isShowed()) {
 			showDialogBox = true;
 			return true;
 		} else {

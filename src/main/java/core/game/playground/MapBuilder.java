@@ -5,18 +5,18 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import core.TheVillage;
 import core.engine.Drawable;
 import core.engine.Sprite;
 import core.game.playground.mapper.Map;
 import core.helper.GuiDebugger;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -24,13 +24,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+@Singleton
 public final class MapBuilder extends Rectangle2D.Double implements Drawable {
-
-    private static final Logger LOGGER = LogManager.getLogger(MapBuilder.class.getName());
 
     private static final String CELL_NOT_FOUND = "CELL_NOT_FOUND";
 
-    private static final MapBuilder instance = new MapBuilder();
+	private final PositionMapper positionMapper;
 
 	private Vector<Sprite> cellList;
 
@@ -38,28 +37,26 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
     private String mapFileName = "test_map_0.xml";
 
-    private MapBuilder() {
-        x = 50;
+    @Inject
+    private MapBuilder(final Logger logger, final PositionMapper positionMapper) {
+		this.positionMapper = positionMapper;
+
+		x = 50;
         y = 50;
         defaultSpawnPoint = new Point(5, 2);
 
-        cellList = new Vector<Sprite>();
-        this.loadMap();
+        cellList = new Vector<>();
+        loadMap();
 
         width = x * PositionMapper.SIZE;
         height = y * PositionMapper.SIZE;
 
-        LOGGER.info(String.format("Map \"%s\" created", mapFileName));
+        logger.info(String.format("Map \"%s\" created", mapFileName));
 	}
 
-    public static MapBuilder getInstance() {
-        return instance;
-    }
-
     private void loadMap() {
-        JAXBContext jaxbContext;
         try {
-            jaxbContext = JAXBContext.newInstance(Map.class);
+            final JAXBContext jaxbContext = JAXBContext.newInstance(Map.class);
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
             final String path = TheVillage.BASE_RESOURCES_PATH + "maps" + TheVillage.FS + mapFileName;
@@ -67,7 +64,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
             // TODO add default spawn point bay map param
 
-            PositionMapper.getInstance().init(map.getWidth(), map.getHeight());
+            positionMapper.init(map.getWidth(), map.getHeight());
 
             for (final core.game.playground.mapper.Cell cell : map.getCellList()) {
                 cellList.add(CellFactory.getCell(cell.getPosition(), cell.getType()));
@@ -81,8 +78,8 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 	/**
 	 * Create a test map with 5x5 cells
 	 */
-	public static void createTestMap() {
-        final List<core.game.playground.mapper.Cell> testCellList = new ArrayList<core.game.playground.mapper.Cell>();
+	private static void createTestMap() {
+        final List<core.game.playground.mapper.Cell> testCellList = new ArrayList<>();
 
         int line = 1;
 
@@ -219,10 +216,6 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
             final Marshaller marshaller = jc.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(map, new FileOutputStream(path));
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -230,18 +223,21 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
 	/**
 	 * Get a Cell by maps x and y coordinate
+	 *
 	 * @param x int
 	 * @param y int
 	 * @return Cell
 	 */
     @SuppressWarnings("unused")
 	public Cell getCellByPoint(final int x, final int y) throws IndexOutOfBoundsException {
-		return this.getCellByPoint(new Point(x, y));
+		return getCellByPoint(new Point(x, y));
 	}
 
 	/**
 	 * Get a Cell by a Point
+	 *
 	 * @param point Point
+	 *
 	 * @return Cell
 	 */
 	public Cell getCellByPoint(final Point point) {
@@ -256,8 +252,10 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
 	/**
 	 * Get a Cell by the X and Y coordinate from the JPanel
+	 *
 	 * @param x double
 	 * @param y double
+	 *
 	 * @return Cell
 	 */
     @SuppressWarnings("unused")
@@ -277,6 +275,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
 	/**
 	 * Get the map as list for game logic
+	 *
 	 * @return Vector[Cell]
 	 */
     @SuppressWarnings("unused")
@@ -298,6 +297,6 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
 	@Override
 	public String toString() {
-		return this.getClass().getName() + "@[numberOfCells=" + cellList.size() + "]";
+		return getClass().getName() + "@[numberOfCells=" + cellList.size() + "]";
 	}
 }

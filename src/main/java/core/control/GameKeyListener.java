@@ -1,12 +1,13 @@
 package core.control;
 
+import com.google.inject.Singleton;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@Singleton
 public final class GameKeyListener extends KeyAdapter {
-	
-	private static GameKeyListener instance;
-	
+
 	private boolean up      = false;
 	private boolean left    = false;
 	private boolean right   = false;
@@ -19,16 +20,7 @@ public final class GameKeyListener extends KeyAdapter {
     private boolean hKey    = false;
 
     private boolean f1Key   = false;
-	
-	private GameKeyListener() { }
-	
-	public static GameKeyListener getInstance() {
-		if (instance == null) {
-			instance = new GameKeyListener();
-		}
-		return instance;
-	}
-	
+
 	public boolean isUp() {
 		return up;
 	}

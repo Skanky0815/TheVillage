@@ -21,14 +21,13 @@ public abstract class Unit extends GameObject implements Moveable {
 
 	private double usedSpeed;
 
+	private Map<String, BufferedImage[]> unitImage;
+
 	protected double dx;
 
 	protected double dy;
 
-	private Map<String, BufferedImage[]> unitImage;
-
 	protected MoveTo orientation;
-
 
 	public Unit(Point position) {
 		super(position);

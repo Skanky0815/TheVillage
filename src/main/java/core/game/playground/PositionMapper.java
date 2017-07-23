@@ -1,6 +1,6 @@
 package core.game.playground;
 
-import org.apache.log4j.LogManager;
+import com.google.inject.Inject;
 import org.apache.log4j.Logger;
 
 import java.awt.*;
@@ -12,9 +12,6 @@ import java.awt.geom.Rectangle2D;
  */
 public class PositionMapper {
 
-    private static final Logger LOGGER = LogManager.getLogger(PositionMapper.class.getName());
-
-    private static PositionMapper instance = new PositionMapper();
 
     private Rectangle2D.Double[][] area;
 
@@ -23,21 +20,22 @@ public class PositionMapper {
      */
     public static final int SIZE = 50;
 
-    public static PositionMapper getInstance() {
-        return PositionMapper.instance;
+    private final Logger logger;
+
+    @Inject
+    private PositionMapper(final Logger logger) {
+        this.logger = logger;
     }
 
-    private PositionMapper() { }
-
-    public void init(final int maxX, final int maxY) {
-        LOGGER.debug(String.format("Init x=%s|y=%s", maxX, maxY));
+    void init(final int maxX, final int maxY) {
+        logger.debug(String.format("Init x=%s|y=%s", maxX, maxY));
         area = new Rectangle2D.Double[maxX][maxY];
 
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
                 final Rectangle2D.Double field = new Rectangle2D.Double();
                 field.setRect(SIZE * x, SIZE * y, SIZE, SIZE);
-                this.area[x][y] = field;
+                area[x][y] = field;
             }
         }
     }

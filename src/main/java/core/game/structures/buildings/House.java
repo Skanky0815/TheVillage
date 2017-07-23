@@ -2,6 +2,7 @@ package core.game.structures.buildings;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 
 import core.engine.Integrable;
 import core.engine.Sprite;
@@ -24,8 +25,8 @@ public class House extends Spawn implements Integrable {
 
 	private int currentNumberOfResidents;
 
-	public House(final Point position) {
-		super(position, 2, 2);
+	public House(final Point position, final Rectangle2D.Double rect, final MapBuilder mapBuilder) {
+		super(position, rect, mapBuilder, 2, 2);
         maxResidents = 1; // TODO change
         currentNumberOfResidents = 0;
         this.setPics(ImageLoader.getBuildingImage(BuildingType.HOUSE));
@@ -35,7 +36,7 @@ public class House extends Spawn implements Integrable {
     @Override
     protected void doSpawn() {
         if (currentNumberOfResidents < maxResidents) {
-            final Citizen citizen = new Citizen(MapBuilder.getInstance().getDefaultSpawnPoint(), this);
+            final Citizen citizen = new Citizen(mapBuilder.getDefaultSpawnPoint(), this);
             citizen.setDoable(new DoGoHome());
             currentNumberOfResidents++;
         } else {

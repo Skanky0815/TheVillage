@@ -1,6 +1,7 @@
 package core.engine;
 
 import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public abstract class GameObject extends Sprite implements Drawable {
@@ -15,8 +16,8 @@ public abstract class GameObject extends Sprite implements Drawable {
 
 	protected boolean remove;
 
-	protected GameObject(final Point position) {
-		super(position);
+	protected GameObject(final Point position, final Rectangle2D.Double rect) {
+		super(position, rect);
 	}
 
 	protected final void setPics(final BufferedImage[] pics) {
@@ -34,15 +35,11 @@ public abstract class GameObject extends Sprite implements Drawable {
 
 	public void doLogic(final long delta) {
 		animation += delta / 1000000;
-        long delay = 175;
+        final long delay = 175;
         if (animation > delay) {
 			animation = 0;
-			this.computeAnimation();
+			computeAnimation();
 		}
-
-        if (remove) {
-            SpriteSet.getInstance().removeActor(this);
-        }
 	}
 
 	private void computeAnimation() {

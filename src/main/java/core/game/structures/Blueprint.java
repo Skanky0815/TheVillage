@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.inject.Inject;
 import core.game.item.ResourcesType;
 import core.game.playground.Cell;
 import core.game.playground.CellType;
@@ -16,7 +17,7 @@ import core.game.structures.environment.Tree;
 
 public class Blueprint {
 
-    public enum BuildingType {
+	public enum BuildingType {
         TREE, GRAIN, HOUSE, WOOD_SIGN, WAREHOUSE, GOLDVEIN_SIGN
     }
 
@@ -24,14 +25,18 @@ public class Blueprint {
 
 	private String description = "";
 
-	private BufferedImage[] icon = null;
+	private BufferedImage[] icon;
 
 	private Map<ResourcesType, Integer> priceList;
 
-	private BuildingType type = null;
-	
-	public Blueprint() {
-        priceList = new HashMap<ResourcesType, Integer>();
+	private BuildingType type;
+
+	private final MapBuilder mapBuilder;
+
+	@Inject
+	public Blueprint(final MapBuilder mapBuilder) {
+		this.mapBuilder = mapBuilder;
+		priceList = new HashMap<>();
 	}
 
 	public void setType(final BuildingType type) {
@@ -39,7 +44,7 @@ public class Blueprint {
 	}
 
 	public BuildingType getTyp() {
-		return this.type;
+		return type;
 	}
 
 	public void setName(final String name) {
@@ -82,7 +87,7 @@ public class Blueprint {
         switch (type) {
             case TREE:
                 new Tree(position);
-                final Cell cell = MapBuilder.getInstance().getCellByPoint(position);
+                final Cell cell = mapBuilder.getCellByPoint(position);
                 cell.setCellTyp(CellType.WOOD);
 			    break;
             case HOUSE:

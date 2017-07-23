@@ -3,6 +3,7 @@ package core;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import core.engine.services.TranslateService;
 import core.game.ui.GameFrame;
 import core.helper.*;
 import org.apache.log4j.PropertyConfigurator;
@@ -11,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.Locale;
 
 
 public class TheVillage extends AbstractModule {
@@ -32,7 +32,6 @@ public class TheVillage extends AbstractModule {
         final Config config = game.loadConfig(injector.getInstance(Config.class));
         game.setupLogging();
 
-        Translator.setLocale(new Locale(config.getProperty(PropertyName.APP_LANGUAGE)));
         GuiDebugger.setGuiDebugger(config.getProperty(PropertyName.APP_GUI_DEBUGGING));
 
         game.setupGame();
@@ -52,7 +51,10 @@ public class TheVillage extends AbstractModule {
     }
 
     private void run(final Injector injector) {
-        final MessageFormat titleFormat = new MessageFormat(Translator.translate("game.name"));
+
+        final MessageFormat titleFormat = new MessageFormat(
+                injector.getInstance(TranslateService.class).translate("game.name")
+        );
         final Object[] arguments = { this.config.getProperty(PropertyName.APP_VERSION) };
         new GameFrame(titleFormat.format(arguments), injector);
     }

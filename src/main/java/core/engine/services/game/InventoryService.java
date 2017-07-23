@@ -20,24 +20,18 @@ import java.util.Map;
  */
 public class InventoryService extends AbstractService implements InterfaceRenderInventoryService {
 
-    public final TranslateService translator;
-
     private final ItemService itemService;
-
-    private Inventory ui;
-
-    private List<ResourcesType> itemList;
+    private final Inventory ui;
+    private final List<ResourcesType> itemList;
 
     @Inject
     public InventoryService(
             final Logger log,
             final Config config,
-            final TranslateService translator,
             final ItemService itemService,
             final Inventory ui
     ) {
         super(log, config);
-        this.translator = translator;
         this.itemService = itemService;
         this.ui = ui;
         this.itemList = new ArrayList<>();

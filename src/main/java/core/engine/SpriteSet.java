@@ -1,5 +1,7 @@
 package core.engine;
 
+import com.google.inject.Singleton;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +11,12 @@ import java.util.Vector;
  * Date: 22.12.12
  * Time: 02:30
  */
+@Singleton
 public class SpriteSet {
 
-    private static SpriteSet instance = new SpriteSet();
+    private final Vector<Sprite> actors = new Vector<>(100, 10);
 
-    private Vector<Sprite> actors = new Vector<>(100, 10);
-
-    public static SpriteSet getInstance() {
-        return SpriteSet.instance;
-    }
-
-    private SpriteSet() { }
+    public SpriteSet() { }
 
     public int actorsSize() {
         return actors.size();

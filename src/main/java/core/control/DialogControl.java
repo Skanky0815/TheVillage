@@ -1,26 +1,21 @@
 package core.control;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import core.game.ui.DialogBox;
 
+@Singleton
 public class DialogControl {
 
-	private static DialogControl instance;
-	
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private int upDown;
-	
-	private DialogControl() {
-		keyListener = GameKeyListener.getInstance();
+
+	@Inject
+	private DialogControl(final GameKeyListener keyListener) {
+		this.keyListener = keyListener;
 	}
 
-	public static DialogControl getInstance() {
-		if (instance == null) {
-			instance = new DialogControl();
-		}
-		return instance;
-	}
-	
 	public void selectElement() {
 		
 		if (keyListener.isUpReleased()) {

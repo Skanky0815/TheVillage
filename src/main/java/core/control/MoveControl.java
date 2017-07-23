@@ -1,24 +1,19 @@
 package core.control;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import core.game.ui.GamePanel;
 
+@Singleton
 public final class MoveControl {
 
-	private static MoveControl instance;
-	
-	private GameKeyListener keyListener;
-	
-	private MoveControl() {
-        keyListener = GameKeyListener.getInstance();
+	private final GameKeyListener keyListener;
+
+	@Inject
+	private MoveControl(final GameKeyListener keyListener) {
+        this.keyListener = keyListener;
 	}
 
-	public static MoveControl getInstance() {
-		if (instance == null) {
-			instance = new MoveControl();
-		}
-		return instance;
-	}
-	
 	public boolean move() {
 		boolean moved = false;
 		

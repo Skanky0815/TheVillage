@@ -27,74 +27,83 @@ import core.game.structures.environment.Reclaimable;
 import core.game.structures.environment.Tree;
 import core.game.unit.Player;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class GamePanel extends Screen implements ActionListener {
-
-    private static final Logger LOGGER = LogManager.getLogger(GamePanel.class.getName());
-
-	private Timer reclaimTimer;
-
-	private MoveControl moveControl             = MoveControl.getInstance();
-    private ActionControl actionControl         = ActionControl.getInstance();
-	private InterfaceControl interfaceControl   = InterfaceControl.getInstance();
-	private BuildMenuControl buildmenuControl   = BuildMenuControl.getInstance();
-	private InventoryControl inventoryControl   = InventoryControl.getInstance();
-	private DialogControl dialogControl         = DialogControl.getInstance();
 
 	public static Player player;
 
 	public static List<ArrayList<Blueprint>> buildableList;
 
+	private final Timer reclaimTimer;
+	private final Logger logger;
+	private final MoveControl moveControl;
+    private final ActionControl actionControl;
+	private final InterfaceControl interfaceControl;
+	private final BuildMenuControl buildmenuControl;
+	private final InventoryControl inventoryControl;
+	private final DialogControl dialogControl;
+	private final InventoryService inventoryService;
+	private final MapBuilder mapBuilder;
+	private final Inventory inventory;
+	private final SpriteSet spriteSet;
+	private final BuildMenu buildMenu;
+	private final DialogBox dialogBox;
+
 	private boolean doReclaim;
 
-	private Inventory inventory;
-
-	private InventoryService inventoryService;
-
-	public GamePanel(final long period, final int w, final int h, final Injector injector) {
+	GamePanel(final long period, final int w, final int h, final Injector injector) {
         super(period, w, h);
 
-        this.addKeyListener(GameKeyListener.getInstance());
+        logger = injector.getInstance(Logger.class);
+		mapBuilder = injector.getInstance(MapBuilder.class);
+		moveControl = injector.getInstance(MoveControl.class);
+		actionControl = injector.getInstance(ActionControl.class);
+		interfaceControl = injector.getInstance(InterfaceControl.class);
+		buildmenuControl = injector.getInstance(BuildMenuControl.class);
+		inventoryControl = injector.getInstance(InventoryControl.class);
+		dialogControl = injector.getInstance(DialogControl.class);
+		inventoryService = injector.getInstance(InventoryService.class);
+		spriteSet = injector.getInstance(SpriteSet.class);
+		buildMenu = injector.getInstance(BuildMenu.class);
+		dialogBox = injector.getInstance(DialogBox.class);
 
-		final InventoryService inventoryService = injector.getInstance(InventoryService.class);
-		this.inventoryService = inventoryService;
-		this.inventory = inventoryService.getUi();
+		reclaimTimer = new Timer(8000, this);
 
-        this.initGame();
+		inventory = inventoryService.getUi();
+
+		addKeyListener(injector.getInstance(GameKeyListener.class));
+		initGame();
 	}
 
 	private void initGame() {
-        this.initBuildingList();
+        initBuildingList();
 
         doReclaim = false;
 
-        MapBuilder.getInstance();
         new GoldVein(new Point(1,1));
-        player = new Player(MapBuilder.getInstance().getDefaultSpawnPoint());
+        player = new Player(mapBuilder.getDefaultSpawnPoint());
 
-        reclaimTimer = new Timer(8000, this);
         reclaimTimer.start();
 
-        LOGGER.info("Game are initiated");
-        LOGGER.info(String.format("Game starts with %s objects", SpriteSet.getInstance().actorsSize()));
-        LOGGER.info(String.format("The player: %s", player.toString()));
+        logger.info("Game are initiated");
+        logger.info(String.format("Game starts with %s objects", spriteSet.actorsSize()));
+        logger.info(String.format("The player: %s", player.toString()));
 	}
 
 	private void initBuildingList() {
-		final ArrayList<Blueprint> natureBuildings = new ArrayList<Blueprint>();
+		final ArrayList<Blueprint> natureBuildings = new ArrayList<>();
         natureBuildings.add(Tree.getBlueprint());
 
-		final ArrayList<Blueprint> civilBuildings = new ArrayList<Blueprint>();
+		final ArrayList<Blueprint> civilBuildings = new ArrayList<>();
 		civilBuildings.add(House.getBlueprint());
 		
-		final ArrayList<Blueprint> resourceBuildings = new ArrayList<Blueprint>();
+		final ArrayList<Blueprint> resourceBuildings = new ArrayList<>();
 		resourceBuildings.add(Warehouse.getBlueprint());
 		resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.WOOD));
 		resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.GOLD));
 
-		buildableList = new ArrayList<ArrayList<Blueprint>>();
+		buildableList = new ArrayList<>();
         buildableList.add(natureBuildings);
         buildableList.add(civilBuildings);
         buildableList.add(resourceBuildings);
@@ -129,49 +138,68 @@ public class GamePanel extends Screen implements ActionListener {
 
     @Override
 	protected void checkTimeEvent() {
-		if (!isPaused && !gameOver) {
-            final Vector<Sprite> actors = SpriteSet.getInstance().getActors();
-            if (doReclaim) {
-                for (final Sprite sprite : actors) {
-                    if (sprite instanceof Reclaimable) {
-                        ((Reclaimable) sprite).reclaim();
-                    }
-                }
-                doReclaim = false;
+		// if pause, game over or reclaim disabled then do nothing
+		if (isPaused || gameOver || !doReclaim) {
+			return;
+		}
+
+		// loop over all screen elements and if the reclaimable call the reclaim method
+		for (final Sprite sprite : spriteSet.getActors()) {
+			if (sprite instanceof Reclaimable) {
+				((Reclaimable) sprite).reclaim();
 			}
 		}
+
+		// set the reclaim on false
+		doReclaim = false;
 	}
 
     @Override
 	protected void gameUpdate(final long timeDiff) {
-		if (!isPaused && !gameOver) {
-            final Vector<Sprite> actors = SpriteSet.getInstance().getClonedActors();
-
-			for (final Sprite sprite : actors) {
-				if (sprite instanceof GameObject) {
-					((GameObject) sprite).doLogic(timeDiff);
-				}
-			}
-
-			for (int i = 0; i < actors.size(); i++) {
-				for (int n = i + 1; n < actors.size(); n++) {
-					final Sprite spriteA = actors.get(i);
-					final Sprite spriteB = actors.get(n);
-
-					spriteA.collideWith(spriteB);
-                    spriteB.collideWith(spriteA);
-				}
-			}
-
-			this.inventoryService.update(player);
+		// if pause or the games is over then do nothing
+		if (isPaused || gameOver) {
+			return;
 		}
+
+		// get clone of all actors
+		final Vector<Sprite> actors = spriteSet.getClonedActors();
+
+		// loop over all actors an call the doLogic method
+		for (final Sprite actor : actors) {
+			if (!(actor instanceof GameObject)) {
+				continue;
+			}
+
+			GameObject gameObject = (GameObject) actor;
+
+			gameObject.doLogic(timeDiff);
+
+			// remove all marked actors
+			if (gameObject.isRemove()) {
+				spriteSet.removeActor(gameObject);
+			}
+		}
+
+		// check if an actors collide with each other actor
+		for (int i = 0; i < actors.size(); i++) {
+			for (int n = i + 1; n < actors.size(); n++) {
+				final Sprite spriteA = actors.get(i);
+				final Sprite spriteB = actors.get(n);
+
+				spriteA.collideWith(spriteB);
+				spriteB.collideWith(spriteA);
+			}
+		}
+
+		// update the inventoryService with the player data
+		inventoryService.update(player);
 	}
 
     @Override
 	protected void gameRender() {
         super.gameRender();
 
-        for (final Sprite sprite : SpriteSet.getInstance().getActors()) {
+        for (final Sprite sprite : spriteSet.getActors()) {
             if (sprite instanceof Drawable) {
                 ((Drawable) sprite).draw(dbg);
             }
@@ -182,14 +210,14 @@ public class GamePanel extends Screen implements ActionListener {
 		}
 
 		if (interfaceControl.isShowBuildmenu()) {
-			BuildMenu.getInstance().draw(dbg);
+			buildMenu.draw(dbg);
 		}
 		
-		if (this.interfaceControl.isShowDialogBox()) {
-			DialogBox.getInstance().draw(dbg);
+		if (interfaceControl.isShowDialogBox()) {
+			dialogBox.draw(dbg);
 		}
 
-        if (this.interfaceControl.isShowDebuggingBox()) {
+        if (interfaceControl.isShowDebuggingBox()) {
             dbg.setColor(Color.BLACK);
             dbg.drawString("FPS: " + (int) averageFPS, 20, 25);
         }
@@ -198,8 +226,8 @@ public class GamePanel extends Screen implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(reclaimTimer)) {
-            doReclaim = true;
-		}
+
+		// check if the reclaim timer is triggered and set the reclaim var
+		doReclaim = e.getSource().equals(reclaimTimer);
 	}
 }

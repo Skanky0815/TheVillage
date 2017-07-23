@@ -1,28 +1,23 @@
 package core.control;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import core.game.ui.GamePanel;
 
+@Singleton
 public class BuildMenuControl {
 
-	private static BuildMenuControl instance;
-
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private int upDown;
 
     private int leftRight;
 
-	private BuildMenuControl() {
-		keyListener = GameKeyListener.getInstance();
+    @Inject
+	private BuildMenuControl(final GameKeyListener keyListener) {
+		this.keyListener = keyListener;
 	}
 
-	public static BuildMenuControl getInstance() {
-		if (instance == null) {
-			instance = new BuildMenuControl();
-		}
-		return instance;
-	}
-	
 	public void selectElement() {
 		
 		if (keyListener.isUpReleased()) {

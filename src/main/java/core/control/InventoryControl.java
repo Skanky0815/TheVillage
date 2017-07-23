@@ -1,25 +1,21 @@
 package core.control;
 
-public class InventoryControl {
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-	private static InventoryControl instance;
+@Singleton
+public class InventoryControl {
 	
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private int upDown;
-	
-	private InventoryControl() {
-		keyListener = GameKeyListener.getInstance();
+
+	@Inject
+	private InventoryControl(final GameKeyListener keyListener) {
+		this.keyListener = keyListener;
 	}
 
-	public static InventoryControl getInstance() {
-		if (instance == null) {
-			instance = new InventoryControl();
-		}
-		return instance;
-	}
-	
-	public void selectElements() { 
+	public void selectElements() {
 		if (keyListener.isUpReleased()) {
 			upDown = +1;
 		}

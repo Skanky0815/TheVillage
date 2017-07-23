@@ -30,7 +30,7 @@ public final class Config {
             properties.load(inputStream);
         } finally {
             try {
-                if (inputStream != null) {
+                if (null != inputStream) {
                     inputStream.close();
                 }
             } catch (final IOException ignore) { }

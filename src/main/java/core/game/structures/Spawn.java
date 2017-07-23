@@ -1,18 +1,27 @@
 package core.game.structures;
 
+import core.game.playground.MapBuilder;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Spawn extends Structure implements ActionListener {
 
     private boolean doSpawn = false;
 
-    private Timer spawnTimer;
+    private final Timer spawnTimer;
 
-    public Spawn(final Point position, final int sizeX, final int sizeY) {
-        super(position, sizeX, sizeY);
+    public Spawn(
+            final Point position,
+            final Rectangle2D.Double rect,
+            final MapBuilder mapBuilder,
+            final int sizeX,
+            final int sizeY
+    ) {
+        super(position, rect, mapBuilder, sizeX, sizeY);
         spawnTimer = new Timer(2500, this);
         spawnTimer.start();
     }

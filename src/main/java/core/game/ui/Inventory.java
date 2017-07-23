@@ -9,7 +9,6 @@ import com.google.inject.Inject;
 import core.control.InventoryControl;
 import core.engine.services.TranslateService;
 import core.engine.services.game.InterfaceRenderInventoryService;
-import core.engine.services.game.InventoryService;
 import core.game.item.Resource;
 import core.helper.GameFont;
 import core.helper.ImageLoader;
@@ -19,18 +18,18 @@ import org.apache.log4j.Logger;
 
 public class Inventory extends AbstractGUI {
 
-	private InventoryControl inventoryControl;
+	private final InventoryControl inventoryControl;
 
-	private Map<String, BufferedImage[]> guiImage;
+	private final Map<String, BufferedImage[]> guiImage;
 	
-	private GameFont font;
+	private final GameFont font;
 
 	private int itemPointer = 0;
 
 	private InterfaceRenderInventoryService inventoryService;
 
 	@Inject
-	public Inventory(final Logger logger, final TranslateService translator) {
+	public Inventory(final Logger logger, final TranslateService translator, final InventoryControl inventoryControl) {
 		this.log = logger;
 		this.translator = translator;
 
@@ -40,13 +39,13 @@ public class Inventory extends AbstractGUI {
 		this.width = 200;
 		this.height = 150;
 
-		this.inventoryControl = InventoryControl.getInstance();
+		this.inventoryControl = inventoryControl;
 		this.guiImage = ImageLoader.getInventoryGUI();
 		this.font = GameFont.getInstance();
 	}
 
-	public void draw(Graphics g) {
-        this.itemPointer = this.itemPointer + inventoryControl.getSelectedElement();
+	public void draw(final Graphics g) {
+        itemPointer = itemPointer + inventoryControl.getSelectedElement();
 		
 		int x = (int) this.x;
 		int y = (int) this.y;
@@ -54,14 +53,14 @@ public class Inventory extends AbstractGUI {
 		int typoX = (x + 30);
 		int arrowX = (int) (x + 36.5);
 
-		g.drawImage(this.guiImage.get("list")[0], x, y, null);
+		g.drawImage(guiImage.get("list")[0], x, y, null);
 		
 		g.setColor(Color.BLACK);
 		if (GamePanel.player.getBackpackSize() != 0) {
 			try {
-				final Resource resource = this.inventoryService.getResource(this.itemPointer);
+				final Resource resource = inventoryService.getResource(itemPointer);
 				final String str = GamePanel.player.getBackpack().get(resource.getType())
-						+ "x " + this.translator.translate(resource.getName());
+						+ "x " + translator.translate(resource.getName());
 				
 				g.setFont(font.getFont(GameFontTyp.INFOBOX_HEADLINE));
 				g.drawString(str, typoX, y + 85);
@@ -72,14 +71,14 @@ public class Inventory extends AbstractGUI {
 				g.setFont(font.getFont(GameFontTyp.INFOBOX_HEADLINE));
 				g.drawImage(guiImage.get("infobox_top")[0], x, infoboxY, null);
 				g.drawImage(resource.getSIcon(), iconX, infoboxY + 5, null);
-				g.drawString(this.translator.translate(resource.getName()), typoX, infoboxY + 18);
+				g.drawString(translator.translate(resource.getName()), typoX, infoboxY + 18);
 				
 				int counter = 0;
 				int infoboxCenterY = infoboxY + 22;
 				int infoboxTextY = infoboxY + 36;
 				g.setFont(font.getFont(GameFontTyp.INFOBOX));
 				for (final String string : StringBreaker.beakString(
-						this.translator.translate(resource.getDescription()),
+						translator.translate(resource.getDescription()),
 						90,
 						g
 				)) {
@@ -92,15 +91,15 @@ public class Inventory extends AbstractGUI {
 			
 //			if (itemList.size() > 2) {
 			try {
-				this.drawResourceLine(typoX, y + 45, this.itemPointer + 1, g);
+				drawResourceLine(typoX, y + 45, this.itemPointer + 1, g);
 			} catch(IndexOutOfBoundsException e) {
-				this.drawResourceLine(typoX, y + 45, 0, g);
+				drawResourceLine(typoX, y + 45, 0, g);
 			}
 			
 			try {
-				this.drawResourceLine(typoX, y + 145, this.itemPointer - 1, g);
+				drawResourceLine(typoX, y + 145, this.itemPointer - 1, g);
 			} catch (IndexOutOfBoundsException e) {
-				this.drawResourceLine(typoX, y + 145, this.inventoryService.getItemCount() - 1, g);
+				drawResourceLine(typoX, y + 145, this.inventoryService.getItemCount() - 1, g);
 			}
 //			}
 			
@@ -112,9 +111,9 @@ public class Inventory extends AbstractGUI {
 	}
 
 	private Resource drawResourceLine(final int x, final int y, final int key, final Graphics g) {
-		final Resource resource = this.inventoryService.getResource(key);
+		final Resource resource = inventoryService.getResource(key);
 		final String str = GamePanel.player.getBackpack().get(resource.getType())
-				+ "x " + this.translator.translate(resource.getName());
+				+ "x " + translator.translate(resource.getName());
 		
 		g.drawString(str, x, y);
 		

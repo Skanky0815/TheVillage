@@ -1,7 +1,6 @@
 package core.game.ui;
 
 import com.google.inject.Injector;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.awt.GraphicsConfiguration;
@@ -15,9 +14,7 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame implements WindowListener {
 
-    private static final Logger LOGGER = LogManager.getLogger(GameFrame.class.getName());
-
-    private GamePanel gp;
+	private GamePanel gp;
 
 	public static int pWidth, pHeight;
 
@@ -25,21 +22,22 @@ public class GameFrame extends JFrame implements WindowListener {
 		super(title);
 
         final int fps = 80;
+		final Logger logger = injector.getInstance(Logger.class);
 
 		final long period = (long) 1000.0 / fps;
-		LOGGER.info(String.format("FPS: %s; period: %s ms", fps, period));
-        this.calcSizes();
-        this.setResizable(true);
+		logger.info(String.format("FPS: %s; period: %s ms", fps, period));
+        calcSizes();
+        setResizable(true);
 
         pWidth = 800;
         pHeight = 600;
 
         gp = new GamePanel((period * 1000000L), pWidth, pHeight, injector);
-		this.add(gp, "Center");
-        this.pack();
+		add(gp, "Center");
+        pack();
 		
-		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.addWindowListener(this);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(this);
 
 //        this.addComponentListener(new ComponentAdapter() {
 //			public void componentMoved(ComponentEvent e) {
@@ -47,8 +45,8 @@ public class GameFrame extends JFrame implements WindowListener {
 //			}
 //		});
 
-        this.setResizable(false);
-        this.setVisible(true);
+        setResizable(false);
+        setVisible(true);
 	}
 
 	private void calcSizes() {
@@ -58,7 +56,7 @@ public class GameFrame extends JFrame implements WindowListener {
 		final Toolkit toolkit = Toolkit.getDefaultToolkit();
 		final Insets desktopInsets = toolkit.getScreenInsets(graphicsConfiguration);
 
-		final Insets frameInsets = this.getInsets();
+		final Insets frameInsets = getInsets();
 
         pWidth = screenRect.width
                 - (desktopInsets.left + desktopInsets.right)
