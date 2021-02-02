@@ -6,7 +6,7 @@ import core.engine.services.XMLReaderService;
 import core.game.item.Resource;
 import core.game.item.ResourcesType;
 import core.helper.Config;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 

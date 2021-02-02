@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import core.engine.components.service.AbstractService;
 import core.helper.Config;
 import core.helper.PropertyName;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Locale;
 import java.util.MissingResourceException;

@@ -1,8 +1,6 @@
 package core.game.ui;
 
 import com.google.inject.Injector;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
@@ -15,8 +13,6 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame implements WindowListener {
 
-    private static final Logger LOGGER = LogManager.getLogger(GameFrame.class.getName());
-
     private GamePanel gp;
 
 	public static int pWidth, pHeight;
@@ -27,7 +23,6 @@ public class GameFrame extends JFrame implements WindowListener {
         final int fps = 80;
 
 		final long period = (long) 1000.0 / fps;
-		LOGGER.info(String.format("FPS: %s; period: %s ms", fps, period));
         this.calcSizes();
         this.setResizable(true);
 

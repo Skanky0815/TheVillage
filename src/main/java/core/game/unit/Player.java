@@ -83,7 +83,6 @@ public class Player extends Unit {
 			}
 		} else {
             // TODO implement a user feedback
-            LOGGER.debug("There is a other structure!");
         }
 	}
 

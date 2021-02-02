@@ -15,7 +15,7 @@ import core.helper.GameFont;
 import core.helper.ImageLoader;
 import core.helper.StringBreaker;
 import core.helper.GameFont.GameFontTyp;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class Inventory extends AbstractGUI {
 

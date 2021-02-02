@@ -5,28 +5,21 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import core.TheVillage;
 import core.engine.Drawable;
 import core.engine.Sprite;
 import core.game.playground.mapper.Map;
 import core.helper.GuiDebugger;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 public final class MapBuilder extends Rectangle2D.Double implements Drawable {
-
-    private static final Logger LOGGER = LogManager.getLogger(MapBuilder.class.getName());
 
     private static final String CELL_NOT_FOUND = "CELL_NOT_FOUND";
 
@@ -36,20 +29,16 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
     private Point defaultSpawnPoint;
 
-    private String mapFileName = "test_map_0.xml";
-
     private MapBuilder() {
         x = 50;
         y = 50;
         defaultSpawnPoint = new Point(5, 2);
 
-        cellList = new Vector<Sprite>();
+        cellList = new Vector<>();
         this.loadMap();
 
         width = x * PositionMapper.SIZE;
         height = y * PositionMapper.SIZE;
-
-        LOGGER.info(String.format("Map \"%s\" created", mapFileName));
 	}
 
     public static MapBuilder getInstance() {
@@ -62,7 +51,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
             jaxbContext = JAXBContext.newInstance(Map.class);
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-            final String path = TheVillage.BASE_RESOURCES_PATH + "maps" + TheVillage.FS + mapFileName;
+            final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getFile();
             final Map map = (Map) unmarshaller.unmarshal(new File(path));
 
             // TODO add default spawn point bay map param
@@ -73,7 +62,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
                 cellList.add(CellFactory.getCell(cell.getPosition(), cell.getType()));
             }
         } catch (JAXBException e) {
-            MapBuilder.createTestMap();
+            this.createTestMap();
             this.loadMap();
         }
     }
@@ -81,10 +70,10 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 	/**
 	 * Create a test map with 5x5 cells
 	 */
-	public static void createTestMap() {
-        final List<core.game.playground.mapper.Cell> testCellList = new ArrayList<core.game.playground.mapper.Cell>();
+	public void createTestMap() {
+        final List<core.game.playground.mapper.Cell> testCellList = new ArrayList<>();
 
-        int line = 1;
+        var line = 1;
 
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(1, line), CellType.GRASS));
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(2, line), CellType.GRASS));
@@ -205,27 +194,20 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(9, line), CellType.GRASS));
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(10, line), CellType.GRASS));
 
-        final Map map = new Map();
+        final var map = new Map();
         map.setCellList(testCellList);
         map.setHeight(line);
         map.setWidth(line);
 
-        JAXBContext jc;
         try {
-            jc = JAXBContext.newInstance(Map.class);
-
-            final String path = TheVillage.BASE_RESOURCES_PATH + "maps" + TheVillage.FS + "test_map_0.xml";
-
-            final Marshaller marshaller = jc.createMarshaller();
+			final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getFile();
+			final var jc = JAXBContext.newInstance(Map.class);
+            final var marshaller = jc.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(map, new FileOutputStream(path));
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        } catch (Exception  ignore) {
+
+		}
 	}
 
 	/**

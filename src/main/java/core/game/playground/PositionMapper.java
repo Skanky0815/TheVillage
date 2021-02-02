@@ -1,8 +1,5 @@
 package core.game.playground;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -11,8 +8,6 @@ import java.awt.geom.Rectangle2D;
  * Time: 10:55
  */
 public class PositionMapper {
-
-    private static final Logger LOGGER = LogManager.getLogger(PositionMapper.class.getName());
 
     private static PositionMapper instance = new PositionMapper();
 
@@ -30,7 +25,6 @@ public class PositionMapper {
     private PositionMapper() { }
 
     public void init(final int maxX, final int maxY) {
-        LOGGER.debug(String.format("Init x=%s|y=%s", maxX, maxY));
         area = new Rectangle2D.Double[maxX][maxY];
 
         for (int x = 0; x < maxX; x++) {

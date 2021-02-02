@@ -35,7 +35,7 @@ public class Warehouse extends Structure implements Integrable {
 
 	@Override
 	public void interact(final Player player) {
-        LOGGER.debug(Arrays.toString(resourcesStore.values().toArray()));
+		// todo implement
 	}
 
 	@Override

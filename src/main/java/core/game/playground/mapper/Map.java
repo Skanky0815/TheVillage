@@ -1,6 +1,7 @@
 package core.game.playground.mapper;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public final class Map {
 
     @XmlElement(name = "cell")
-    private List<Cell> cellList = new ArrayList<Cell>();
+    private final List<Cell> cellList = new ArrayList<>();
 
     @XmlElement(name = "width", required = true)
     private int width;

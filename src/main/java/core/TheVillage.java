@@ -5,9 +5,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import core.game.ui.GameFrame;
 import core.helper.*;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.text.MessageFormat;
@@ -58,7 +57,7 @@ public class TheVillage extends AbstractModule {
     }
 
     private void setupLogging() {
-        PropertyConfigurator.configureAndWatch(CONFIG_PATH);
+        // PropertyConfigurator.configureAndWatch(CONFIG_PATH);
         LOGGER.info("Init logger");
     }
 

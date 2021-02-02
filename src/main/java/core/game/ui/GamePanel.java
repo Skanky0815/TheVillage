@@ -27,12 +27,7 @@ import core.game.structures.environment.Reclaimable;
 import core.game.structures.environment.Tree;
 import core.game.unit.Player;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 public class GamePanel extends Screen implements ActionListener {
-
-    private static final Logger LOGGER = LogManager.getLogger(GamePanel.class.getName());
 
 	private Timer reclaimTimer;
 
@@ -76,10 +71,6 @@ public class GamePanel extends Screen implements ActionListener {
 
         reclaimTimer = new Timer(8000, this);
         reclaimTimer.start();
-
-        LOGGER.info("Game are initiated");
-        LOGGER.info(String.format("Game starts with %s objects", SpriteSet.getInstance().actorsSize()));
-        LOGGER.info(String.format("The player: %s", player.toString()));
 	}
 
 	private void initBuildingList() {
@@ -129,7 +120,7 @@ public class GamePanel extends Screen implements ActionListener {
 
     @Override
 	protected void checkTimeEvent() {
-		if (!isPaused && !gameOver) {
+		if (!isPaused) {
             final Vector<Sprite> actors = SpriteSet.getInstance().getActors();
             if (doReclaim) {
                 for (final Sprite sprite : actors) {
@@ -144,7 +135,7 @@ public class GamePanel extends Screen implements ActionListener {
 
     @Override
 	protected void gameUpdate(final long timeDiff) {
-		if (!isPaused && !gameOver) {
+		if (!isPaused) {
             final Vector<Sprite> actors = SpriteSet.getInstance().getClonedActors();
 
 			for (final Sprite sprite : actors) {

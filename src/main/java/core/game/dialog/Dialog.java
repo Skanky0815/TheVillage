@@ -9,8 +9,6 @@ import core.game.unit.actions.DoCollect;
 import core.game.unit.actions.DoNothing;
 import core.game.unit.actions.Doable;
 import core.helper.Translator;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  * 
@@ -18,8 +16,6 @@ import org.apache.log4j.Logger;
  * TODO implement reading an xml file with dialogs
  */
 public class Dialog {
-
-    private static final Logger LOGGER = LogManager.getLogger(Dialog.class);
 
     /**
 	 * All actions that the player can select in a dialog

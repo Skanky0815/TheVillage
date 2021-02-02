@@ -1,16 +1,12 @@
 package core.engine;
 
 import core.game.playground.PositionMapper;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 
 public abstract class Sprite extends Rectangle2D.Double {
-
-    protected Logger LOGGER = LogManager.getLogger(this.getClass());
 
 	/**
 	 * Hold the current coordinate from the spirit at the map

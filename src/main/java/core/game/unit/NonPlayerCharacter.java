@@ -44,8 +44,6 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
         DIALOG_BOX.setIsShowed(true);
         this.lookAt(player.getOrientation());
         this.removeWaypoint();
-
-        LOGGER.debug(String.format("%s: do-%s", name, doable.getClass().getSimpleName()));
     }
 
     public final Structure getHome() {
@@ -184,7 +182,6 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
         try {
             waypoint = MyAStar.getPathInArray(position, this);
         } catch (final InterruptedException e) {
-            LOGGER.error(e.getMessage());
         }
     }
 

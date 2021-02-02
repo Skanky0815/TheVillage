@@ -2,7 +2,7 @@ package core.game.ui;
 
 import core.engine.Drawable;
 import core.engine.services.TranslateService;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.geom.Rectangle2D;
 

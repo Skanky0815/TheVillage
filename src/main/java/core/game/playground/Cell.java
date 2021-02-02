@@ -18,7 +18,7 @@ public final class Cell extends GameObject {
 
 	private CellType type;
 
-	private Map<CellType, BufferedImage[]> pics;
+	private final Map<CellType, BufferedImage[]> pics;
 
 	private boolean canGo = true;
 

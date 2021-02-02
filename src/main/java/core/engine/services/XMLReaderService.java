@@ -1,8 +1,5 @@
 package core.engine.services;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -10,7 +7,10 @@ import com.google.inject.Inject;
 import core.TheVillage;
 import core.engine.components.service.AbstractService;
 import core.helper.Config;
-import org.apache.log4j.Logger;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by RICO on 04.04.2015.
@@ -31,7 +31,7 @@ public class XMLReaderService extends AbstractService {
             return null;
         }
 
-        final ArrayList<Object> objects = new ArrayList<Object>();
+        final ArrayList<Object> objects = new ArrayList<>();
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isFile()) {
                 objects.add(this.loadXml(fileEntry, className));

@@ -7,14 +7,13 @@ import core.game.item.ResourcesType;
 import core.game.ui.Inventory;
 import core.game.unit.Player;
 import core.helper.Config;
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -33,7 +32,7 @@ public class InventoryServiceTest {
 
     private Inventory inventoryMock;
 
-    @Before
+    @BeforeEach
     public void setup() {
         logMock = mock(Logger.class);
         configMock = mock(Config.class);
@@ -92,11 +91,11 @@ public class InventoryServiceTest {
             return false;
         }))).thenReturn(resourceGoldStub, resourceWoodStub, resourceFoodStub, resourceGoldStub, resourceGoldStub);
 
-        assertEquals("0 Item should be Gold", resourceGoldStub, inventoryService.getResource(0));
-        assertEquals("1 Item should be Wood",resourceWoodStub, inventoryService.getResource(1));
-        assertEquals("2 Item should be Food", resourceFoodStub, inventoryService.getResource(2));
-        assertEquals("3 Item should be Gold", resourceGoldStub, inventoryService.getResource(3));
-        assertEquals("-1 Item should be Gold", resourceGoldStub, inventoryService.getResource(-1));
+        assertEquals(resourceGoldStub, inventoryService.getResource(0), "0 Item should be Gold");
+        assertEquals(resourceWoodStub, inventoryService.getResource(1), "1 Item should be Wood");
+        assertEquals(resourceFoodStub, inventoryService.getResource(2), "2 Item should be Food");
+        assertEquals(resourceGoldStub, inventoryService.getResource(3), "3 Item should be Gold");
+        assertEquals(resourceGoldStub, inventoryService.getResource(-1), "-1 Item should be Gold");
     }
 
     private InventoryService createService() {

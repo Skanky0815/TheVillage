@@ -1,8 +1,8 @@
 package core.game.item.adapter;
 
 import core.game.item.ResourcesType;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Created by RICO on 05.04.2015.

@@ -46,8 +46,6 @@ public class House extends Spawn implements Integrable {
     @Override
 	public void interact(final Player player) {
         isInteract = true;
-        final int count = maxResidents - currentNumberOfResidents;
-        LOGGER.debug(String.format("For %s Citizen is at the moment enough place.", count));
 	}
 
 	@Override

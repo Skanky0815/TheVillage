@@ -1,7 +1,7 @@
 package core.engine.components.service;
 
 import core.helper.Config;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by RICO on 05.04.2015.

@@ -4,13 +4,12 @@ import core.engine.services.XMLReaderService;
 import core.game.item.Resource;
 import core.game.item.ResourcesType;
 import core.helper.Config;
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ItemServiceTest {
@@ -21,7 +20,7 @@ public class ItemServiceTest {
 
     private XMLReaderService xmlReaderService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         logMock = mock(Logger.class);
         configMock = mock(Config.class);

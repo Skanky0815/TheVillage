@@ -15,8 +15,8 @@ import core.engine.MoveTo;
 import core.game.item.ResourcesType;
 import core.game.playground.CellType;
 import core.game.structures.Blueprint.*;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ImageLoader {
 

@@ -9,7 +9,7 @@ import core.game.item.ResourcesType;
 import core.game.ui.Inventory;
 import core.game.unit.Player;
 import core.helper.Config;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

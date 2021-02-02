@@ -1,8 +1,8 @@
 package core.game.playground.mapper.adapter;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.awt.*;
-import java.util.Arrays;
 
 /**
  * User: RICO

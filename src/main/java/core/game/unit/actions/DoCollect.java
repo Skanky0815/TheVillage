@@ -8,8 +8,6 @@ import core.game.structures.buildings.Warehouse;
 import core.game.structures.environment.Resource;
 import core.game.unit.Backpack;
 import core.game.unit.NonPlayerCharacter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,8 +24,6 @@ public class DoCollect implements Doable, ActionListener {
     private enum CollectSteps {
         GO_TO_SIGN, SEARCH, COLLECT, GO_TO_WAREHOUSE, STORE
     }
-
-    private static final Logger LOGGER = LogManager.getLogger(DoCollect.class);
 
     private Timer collectTimer;
 
