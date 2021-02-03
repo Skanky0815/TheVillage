@@ -32,7 +32,7 @@ public abstract class Screen extends JPanel implements Runnable {
 
 	protected volatile boolean isPaused = false;
 
-	private long period;
+	private final long period;
 
 	protected Graphics dbg;
 
@@ -41,11 +41,11 @@ public abstract class Screen extends JPanel implements Runnable {
 	public Screen(final long period, final int width, final int height) {
 		this.period = period;
 
-        this.setBackground(Color.white);
-        this.setPreferredSize(new Dimension(width, height));
+        setBackground(Color.white);
+        setPreferredSize(new Dimension(width, height));
 
-        this.setFocusable(true);
-        this.requestFocus();
+        setFocusable(true);
+        requestFocus();
 
         fpsStore = new double[NUM_FPS];
         upsStore = new double[NUM_FPS];
@@ -56,8 +56,8 @@ public abstract class Screen extends JPanel implements Runnable {
 	}
 
 	public final void addNotify() {
-		super.addNotify();
-        this.startGame();
+		addNotify();
+        startGame();
 	}
 
 	protected void startGame() {
@@ -94,13 +94,13 @@ public abstract class Screen extends JPanel implements Runnable {
 		timeDiff = beforeTime;
 		while (running) {
 
-            this.gameUpdate(timeDiff);
-            this.checkInput();
-            this.checkTimeEvent();
-            this.gameUpdate(timeDiff);
-            this.moveObjects(timeDiff);
-            this.gameRender();
-            this.paintScreen();
+            gameUpdate(timeDiff);
+            checkInput();
+            checkTimeEvent();
+            gameUpdate(timeDiff);
+            moveObjects(timeDiff);
+            gameRender();
+            paintScreen();
 
 			afterTime = System.nanoTime();
 			timeDiff = afterTime - beforeTime;
@@ -127,12 +127,12 @@ public abstract class Screen extends JPanel implements Runnable {
             final int MAX_FRAME_SKIPS = 5;
             while ((excess > period) && (skips < MAX_FRAME_SKIPS)) {
 				excess -= period;
-                this.gameUpdate(timeDiff);
+                gameUpdate(timeDiff);
 				skips++;
 			}
             framesSkipped += skips;
 
-            this.storeStats();
+            storeStats();
 		}
 
 		System.exit(0);
@@ -156,12 +156,12 @@ public abstract class Screen extends JPanel implements Runnable {
 	protected abstract void gameUpdate(final long timeDiff);
 
 	protected void gameRender() {
-		if (dbImage == null) {
-            dbImage = this.createImage(GameFrame.pWidth, GameFrame.pHeight);
-			if (dbImage == null) {
+		if (null == dbImage) {
+            dbImage = createImage(GameFrame.pWidth, GameFrame.pHeight);
+			if (null == dbImage) {
 				return;
 			} else
-                this.dbg = dbImage.getGraphics();
+                dbg = dbImage.getGraphics();
 		}
 
         dbg.setColor(Color.white);
@@ -171,13 +171,14 @@ public abstract class Screen extends JPanel implements Runnable {
 	private void paintScreen() {
 		Graphics g;
 		try {
-			g = this.getGraphics();
-			if ((g != null) && (dbImage != null)) {
+			g = getGraphics();
+			if ((null != g) && (null != dbImage)) {
 				g.drawImage(dbImage, 0, 0, null);
 			}
 			Toolkit.getDefaultToolkit().sync();
 			g.dispose();
 		} catch (NullPointerException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -185,11 +186,11 @@ public abstract class Screen extends JPanel implements Runnable {
         frameCount++;
         statsInterval += period;
 
-        final long MAX_STATS_INTERVAL = 1000000000L;
+        final var MAX_STATS_INTERVAL = 1000000000L;
         if (statsInterval >= MAX_STATS_INTERVAL) {
-			final long TIME_NOW = System.nanoTime();
+			final var TIME_NOW = System.nanoTime();
 
-			final long REAL_ELAPSED_TIME = TIME_NOW - prevStatsTime;
+			final var REAL_ELAPSED_TIME = TIME_NOW - prevStatsTime;
             totalElapsedTime += REAL_ELAPSED_TIME;
             totalFramesSkipped += framesSkipped;
 

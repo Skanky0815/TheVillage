@@ -6,7 +6,7 @@ public class BuildMenuControl {
 
 	private static BuildMenuControl instance;
 
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private int upDown;
 
@@ -17,7 +17,7 @@ public class BuildMenuControl {
 	}
 
 	public static BuildMenuControl getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new BuildMenuControl();
 		}
 		return instance;

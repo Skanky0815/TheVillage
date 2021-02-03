@@ -4,7 +4,7 @@ public class InventoryControl {
 
 	private static InventoryControl instance;
 	
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private int upDown;
 	
@@ -13,7 +13,7 @@ public class InventoryControl {
 	}
 
 	public static InventoryControl getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new InventoryControl();
 		}
 		return instance;

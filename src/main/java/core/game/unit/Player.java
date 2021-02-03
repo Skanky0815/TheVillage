@@ -16,30 +16,30 @@ import core.helper.ImageLoader;
 
 public class Player extends Unit {
 
-	private Map<ResourcesType, Integer> backpack;
+	private final Map<ResourcesType, Integer> backpack;
 
-	private List<ArrayList<Blueprint>> buildableList;
+	private final List<ArrayList<Blueprint>> buildableList;
 
 	private int buildingTyp;
 
 	private int building;
 
-	public Player(Point position) {
+	public Player(final Point position) {
 		super(position);
 
         orientation = MoveTo.S;
-        backpack = new HashMap<ResourcesType, Integer>();
+        backpack = new HashMap<>();
         backpack.put(ResourcesType.GOLD, 20);
         backpack.put(ResourcesType.WOOD, 40);
         backpack.put(ResourcesType.GRAIN, 10);
 
         buildableList = GamePanel.buildableList;
 
-        this.setUnitPics(ImageLoader.getPlayerImages());
+        setUnitPics(ImageLoader.getPlayerImages());
 	}
 
     @Override
-    public boolean collideWith(Sprite s) {
+    public boolean collideWith(final Sprite s) {
         return false;
     }
 
@@ -74,12 +74,12 @@ public class Player extends Unit {
 	}
 
 	public void build() {
-		if (!MapBuilder.getInstance().getCellByPoint(this.getPosition()).hasStructure()) {
-			final Blueprint blueprint = buildableList.get(buildingTyp).get(building);
+		if (!MapBuilder.getInstance().getCellByPoint(getPosition()).hasStructure()) {
+			final var blueprint = buildableList.get(buildingTyp).get(building);
 
-			if (this.checkConstructable(blueprint)) {
-				blueprint.createBuilding(this.getPosition());
-                this.calculateInventoryResources(blueprint);
+			if (checkConstructable(blueprint)) {
+				blueprint.createBuilding(getPosition());
+                calculateInventoryResources(blueprint);
 			}
 		} else {
             // TODO implement a user feedback
@@ -88,9 +88,9 @@ public class Player extends Unit {
 
 	private void calculateInventoryResources(final Blueprint blueprint) {
 		for (final Map.Entry<ResourcesType, Integer> price : blueprint.getPriceList().entrySet()) {
-			final ResourcesType type = price.getKey();
+			final var type = price.getKey();
 			if (backpack.containsKey(type)) {
-				final Integer value = backpack.get(type) - price.getValue();
+				final var value = backpack.get(type) - price.getValue();
                 backpack.put(type, value);
 
 				if (backpack.get(type) <= 0) {
@@ -102,7 +102,7 @@ public class Player extends Unit {
 
 	private boolean checkConstructable(final Blueprint blueprint) {
 		for (final Map.Entry<ResourcesType, Integer> price : blueprint.getPriceList().entrySet()) {
-			if (!this.canBuild(price.getKey(), price.getValue())) {
+			if (!canBuild(price.getKey(), price.getValue())) {
 				return false;
 			}
 		}
@@ -115,40 +115,38 @@ public class Player extends Unit {
 
 	@Override
 	public void calculateCellBoni() {
-		switch (MapBuilder.getInstance().getCellByPoint(this.getPosition()).getType()) {
+		switch (MapBuilder.getInstance().getCellByPoint(getPosition()).getType()) {
             case FIELD:
-                this.calculateSpeed(0.9);
+                calculateSpeed(0.9);
                 break;
             case GRASS:
-                this.calculateSpeed(1);
-                break;
             case HILL:
-                this.calculateSpeed(1);
+                calculateSpeed(1);
                 break;
             case RIVER:
                 break;
             case STREET:
-                this.calculateSpeed(2);
+                calculateSpeed(2);
                 break;
             case WOOD:
-                this.calculateSpeed(0.5);
+                calculateSpeed(0.5);
                 break;
             case PATH:
-                this.calculateSpeed(1.5);
+                calculateSpeed(1.5);
                 break;
 		}
 	}
 
     @Override
 	public String toString() {
-		String str = this.getClass().getName() + "@[";
+		final var str = new StringBuilder(getClass().getName() + "@[");
 
-		str += "Backpack=";
+		str.append("Backpack=");
 		for (final Map.Entry<ResourcesType, Integer> e : backpack.entrySet()) {
-			str += e.getKey() + "::" + e.getValue() + ",";
+			str.append(e.getKey()).append("::").append(e.getValue()).append(",");
 		}
-		str += ",position=" + this.getPosition().x + "|" + this.getPosition().y + "]";
+		str.append(",position=").append(getPosition().x).append("|").append(getPosition().y).append("]");
 
-		return str;
+		return str.toString();
 	}
 }

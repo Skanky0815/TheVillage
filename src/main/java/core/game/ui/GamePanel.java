@@ -31,12 +31,12 @@ public class GamePanel extends Screen implements ActionListener {
 
 	private Timer reclaimTimer;
 
-	private MoveControl moveControl             = MoveControl.getInstance();
-    private ActionControl actionControl         = ActionControl.getInstance();
-	private InterfaceControl interfaceControl   = InterfaceControl.getInstance();
-	private BuildMenuControl buildmenuControl   = BuildMenuControl.getInstance();
-	private InventoryControl inventoryControl   = InventoryControl.getInstance();
-	private DialogControl dialogControl         = DialogControl.getInstance();
+	private final MoveControl moveControl             = MoveControl.getInstance();
+    private final ActionControl actionControl         = ActionControl.getInstance();
+	private final InterfaceControl interfaceControl   = InterfaceControl.getInstance();
+	private final BuildMenuControl buildmenuControl   = BuildMenuControl.getInstance();
+	private final InventoryControl inventoryControl   = InventoryControl.getInstance();
+	private final DialogControl dialogControl         = DialogControl.getInstance();
 
 	public static Player player;
 
@@ -44,24 +44,24 @@ public class GamePanel extends Screen implements ActionListener {
 
 	private boolean doReclaim;
 
-	private Inventory inventory;
+	private final Inventory inventory;
 
-	private InventoryService inventoryService;
+	private final InventoryService inventoryService;
 
 	public GamePanel(final long period, final int w, final int h, final Injector injector) {
         super(period, w, h);
 
-        this.addKeyListener(GameKeyListener.getInstance());
+        addKeyListener(GameKeyListener.getInstance());
 
 		final InventoryService inventoryService = injector.getInstance(InventoryService.class);
 		this.inventoryService = inventoryService;
-		this.inventory = inventoryService.getUi();
+		inventory = inventoryService.getUi();
 
-        this.initGame();
+        initGame();
 	}
 
 	private void initGame() {
-        this.initBuildingList();
+        initBuildingList();
 
         doReclaim = false;
 
@@ -85,7 +85,7 @@ public class GamePanel extends Screen implements ActionListener {
 		resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.WOOD));
 		resourceBuildings.add(ResourceSign.getBlueprint(ResourcesType.GOLD));
 
-		buildableList = new ArrayList<ArrayList<Blueprint>>();
+		buildableList = new ArrayList<>();
         buildableList.add(natureBuildings);
         buildableList.add(civilBuildings);
         buildableList.add(resourceBuildings);
@@ -154,7 +154,7 @@ public class GamePanel extends Screen implements ActionListener {
 				}
 			}
 
-			this.inventoryService.update(player);
+			inventoryService.update(player);
 		}
 	}
 
@@ -169,18 +169,18 @@ public class GamePanel extends Screen implements ActionListener {
         }
 
 		if (interfaceControl.isShowInventory()) {
-			this.inventory.draw(dbg);
+			inventory.draw(dbg);
 		}
 
 		if (interfaceControl.isShowBuildmenu()) {
 			BuildMenu.getInstance().draw(dbg);
 		}
 		
-		if (this.interfaceControl.isShowDialogBox()) {
+		if (interfaceControl.isShowDialogBox()) {
 			DialogBox.getInstance().draw(dbg);
 		}
 
-        if (this.interfaceControl.isShowDebuggingBox()) {
+        if (interfaceControl.isShowDebuggingBox()) {
             dbg.setColor(Color.BLACK);
             dbg.drawString("FPS: " + (int) averageFPS, 20, 25);
         }

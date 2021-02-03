@@ -6,7 +6,7 @@ public class DialogControl {
 
 	private static DialogControl instance;
 	
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private int upDown;
 	
@@ -15,7 +15,7 @@ public class DialogControl {
 	}
 
 	public static DialogControl getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new DialogControl();
 		}
 		return instance;

@@ -14,8 +14,7 @@ public class PlayerBar extends Rectangle2D.Double implements Drawable {
 
 	private static PlayerBar instance;
 
-    private Map<String, BufferedImage[]> guiImage;
-	
+    private final Map<String, BufferedImage[]> guiImage;
 
 	private PlayerBar() {
         guiImage = ImageLoader.getPlayerBarGUI();
@@ -25,7 +24,7 @@ public class PlayerBar extends Rectangle2D.Double implements Drawable {
 	}
 	
 	public static PlayerBar getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new PlayerBar();
 		}
 		return instance;

@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class DoNothing implements Doable, ActionListener {
 
-    private Timer doTimer = new Timer(2000, this);
+    private final Timer doTimer = new Timer(2000, this);
 
     private NonPlayerCharacter npc;
 

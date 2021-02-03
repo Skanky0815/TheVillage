@@ -60,8 +60,8 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
                 cellList.add(CellFactory.getCell(cell.getPosition(), cell.getType()));
             }
         } catch (JAXBException e) {
-            this.createTestMap();
-            this.loadMap();
+            createTestMap();
+            loadMap();
         }
     }
 
@@ -210,7 +210,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
     @SuppressWarnings("unused")
 	public Cell getCellByPoint(final int x, final int y) throws IndexOutOfBoundsException {
-		return this.getCellByPoint(new Point(x, y));
+		return getCellByPoint(new Point(x, y));
 	}
 
 	public Cell getCellByPoint(final Point point) {

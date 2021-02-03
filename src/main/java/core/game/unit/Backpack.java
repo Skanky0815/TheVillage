@@ -15,10 +15,10 @@ public class Backpack {
 
     public static final int MAX_RESOURCE_CAPACITY = 10;
 
-    private ArrayList<ResourcesType> resourceList;
+    private final ArrayList<ResourcesType> resourceList;
 
     public Backpack() {
-        resourceList = new ArrayList<ResourcesType>(MAX_RESOURCE_CAPACITY);
+        resourceList = new ArrayList<>(MAX_RESOURCE_CAPACITY);
     }
 
     public <T extends Resource> void addResource(final ResourcesType resourcesType) {

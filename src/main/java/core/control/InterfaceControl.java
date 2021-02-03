@@ -7,7 +7,7 @@ public class InterfaceControl {
 
 	private static InterfaceControl instance;
 	
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private boolean showInventory = false;
 
@@ -22,7 +22,7 @@ public class InterfaceControl {
 	}
 
 	public static InterfaceControl getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new InterfaceControl();
 		}
 		return instance;

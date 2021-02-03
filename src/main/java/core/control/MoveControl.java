@@ -6,14 +6,14 @@ public final class MoveControl {
 
 	private static MoveControl instance;
 	
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 	
 	private MoveControl() {
         keyListener = GameKeyListener.getInstance();
 	}
 
 	public static MoveControl getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new MoveControl();
 		}
 		return instance;

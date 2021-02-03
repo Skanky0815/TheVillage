@@ -12,7 +12,7 @@ public class Citizen extends NonPlayerCharacter  {
 
 	public Citizen(final Point position, final House home) {
 		super(position, home);
-        this.setUnitPics(ImageLoader.getCitizenImages());
+        setUnitPics(ImageLoader.getCitizenImages());
 
         name = Translator.translate("citizen.name.male." + (int) (Math.random() * 5));
         speakable = new CitizenDialog();
@@ -20,27 +20,12 @@ public class Citizen extends NonPlayerCharacter  {
 
 	@Override
 	protected void calculateCellBoni() {
-		switch (MapBuilder.getInstance().getCellByPoint(this.getPosition()).getType()) {
-            case FIELD:
-                this.calculateSpeed(0.9);
-                break;
-            case GRASS:
-                this.calculateSpeed(1);
-                break;
-            case HILL:
-                this.calculateSpeed(1);
-                break;
-            case RIVER:
-                break;
-            case STREET:
-                this.calculateSpeed(2);
-                break;
-            case WOOD:
-                this.calculateSpeed(0.5);
-                break;
-            case PATH:
-                this.calculateSpeed(1.5);
-                break;
+		switch (MapBuilder.getInstance().getCellByPoint(getPosition()).getType()) {
+            case FIELD -> calculateSpeed(0.9);
+            case GRASS, HILL -> calculateSpeed(1);
+            case STREET -> calculateSpeed(2);
+            case WOOD -> calculateSpeed(0.5);
+            case PATH -> calculateSpeed(1.5);
 		}
 	}
 }

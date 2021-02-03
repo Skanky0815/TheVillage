@@ -10,14 +10,14 @@ public final class ActionControl {
 
 	private static ActionControl instance;
 
-	private GameKeyListener keyListener;
+	private final GameKeyListener keyListener;
 
 	private ActionControl() {
 		keyListener = GameKeyListener.getInstance();
 	}
 
 	public static ActionControl getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new ActionControl();
 		}
 		return instance;
@@ -25,8 +25,8 @@ public final class ActionControl {
 
 	public boolean doAction() {
 		if (keyListener.isSpace()) {
-            for (final Sprite actor : SpriteSet.getInstance().getActors()) {
-                if (this.isCollisionPointInActionArea(actor)) {
+            for (final var actor : SpriteSet.getInstance().getActors()) {
+                if (isCollisionPointInActionArea(actor)) {
                     return true;
                 }
             }
@@ -37,12 +37,12 @@ public final class ActionControl {
 	private boolean isCollisionPointInActionArea(final Sprite sprite) {
 		if (GamePanel.player.getActionArea().intersects(sprite.getCollisionBox())) {
 			if (sprite instanceof Collectable) {
-				this.doActionCollected((Collectable) sprite);
+				doActionCollected((Collectable) sprite);
 				return true;
 			}
 			
 			if (sprite instanceof Integrable) {
-				this.interact((Integrable) sprite);
+				interact((Integrable) sprite);
 				return true;
 			}
 		}

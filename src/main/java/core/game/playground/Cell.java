@@ -67,7 +67,7 @@ public final class Cell extends GameObject {
     public void doLogic(final long delta) {
         if ((moveOverCounter == MAX_MOVE_OVER) && !hasStructure) {
             moveOverCounter = 0;
-            this.switchCellTyp();
+            switchCellTyp();
         }
 
         if (!hasStructure) {
@@ -79,28 +79,25 @@ public final class Cell extends GameObject {
 	public boolean collideWith(final Sprite sprite) {
         boolean isCollided = false;
 		if (sprite instanceof NonPlayerCharacter) {
-			if (this.contains(sprite.getCenterPoint())) {
+			if (contains(sprite.getCenterPoint())) {
                 isCollided = true;
 			}
 		}
 
         if (sprite instanceof Player) {
-            if (this.contains(sprite.getCenterPoint())) {
-                sprite.setPosition(this.getPosition());
+            if (contains(sprite.getCenterPoint())) {
+                sprite.setPosition(getPosition());
                 isCollided = true;
             }
         }
 
         if (!isCollided) {
-            this.leavesCell();
+            leavesCell();
         }
 
 		return isCollided;
 	}
 
-	/**
-	 * Handle the unit an this cell when a unit enter the cell are
-	 */
 	public void entersCell() {
         if (!hasUnit) {
             moveOverCounter++;
@@ -108,18 +105,12 @@ public final class Cell extends GameObject {
         }
 	}
 
-	/**
-	 * Handle the cell when a unit leaving the cell area
-	 */
 	private void leavesCell() {
         if (hasUnit) {
             hasUnit = false;
         }
 	}
-	
-	/**
-	 * Change the type of the cell GRASS > PATH > STREET ect.
-	 */
+
 	private void switchCellTyp() {
         switch (type) {
             case GRASS:
@@ -139,10 +130,10 @@ public final class Cell extends GameObject {
 	public String toString() {
 		return String.format(
                 "%s@[typ=%s,position=%s/%s]]",
-                this.getClass().getName(),
+                getClass().getName(),
                 type,
-                this.getPosition().x,
-                this.getPosition().y
+                getPosition().x,
+                getPosition().y
         );
 	}
 
@@ -152,7 +143,7 @@ public final class Cell extends GameObject {
 
         if (GuiDebugger.isDebugModeOn()) {
             g.setColor(Color.CYAN);
-            g.drawString(String.format("%s/%s", this.getPosition().x, this.getPosition().y), (int) x + 5, (int) y + 15);
+            g.drawString(String.format("%s/%s", getPosition().x, getPosition().y), (int) x + 5, (int) y + 15);
         }
 	}
 }

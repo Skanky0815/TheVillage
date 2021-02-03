@@ -29,8 +29,7 @@ public abstract class Unit extends GameObject implements Moveable {
 
 	protected MoveTo orientation;
 
-
-	public Unit(Point position) {
+	public Unit(final Point position) {
 		super(position);
         orientation = MoveTo.S;
 	}
@@ -48,32 +47,19 @@ public abstract class Unit extends GameObject implements Moveable {
         final int fieldSize = PositionMapper.SIZE;
         final int size = fieldSize / 2;
         final int offset = size / 2;
-		switch (orientation) {
-            case N:
-                return new Rectangle2D.Double(x + offset, y - fieldSize + offset, size, size);
-            case E:
-                return new Rectangle2D.Double(x + fieldSize + offset, y + offset, size, size);
-            case S:
-                return new Rectangle2D.Double(x + offset, y + fieldSize + offset, size, size);
-            case W:
-                return new Rectangle2D.Double(x - fieldSize + offset, y + offset, size, size);
-            default:
-                return null;
-		}
+		return switch (orientation) {
+			case N -> new Rectangle2D.Double(x + offset, y - fieldSize + offset, size, size);
+		 	case E -> new Rectangle2D.Double(x + fieldSize + offset, y + offset, size, size);
+		 	case S -> new Rectangle2D.Double(x + offset, y + fieldSize + offset, size, size);
+		 	case W -> new Rectangle2D.Double(x - fieldSize + offset, y + offset, size, size);
+			default -> null;
+		};
 	}
 
-	/**
-	 * Returns the current viewing direction
-	 * @return MoveTo
-	 */
 	public final MoveTo getOrientation() {
 		return orientation;
 	}
 
-	/**
-	 * Calculate the usedSpeed with the default speed and a multiplier
-	 * @param multiplier double
-	 */
 	protected final void calculateSpeed(final double multiplier) {
 		usedSpeed = DEFAULT_SPEED * multiplier;
 	}
@@ -81,31 +67,31 @@ public abstract class Unit extends GameObject implements Moveable {
     @Override
     public void doLogic(final long delta) {
         super.doLogic(delta);
-        this.calculateCellBoni();
+        calculateCellBoni();
     }
 
     protected abstract void calculateCellBoni();
 
 	public final void moveDown() {
-		this.moveLeftRightStop();
+		moveLeftRightStop();
 		dy = usedSpeed;
 		orientation = MoveTo.S;
 	}
 
 	public final void moveRight() {
-        this.moveUpDownStop();
+        moveUpDownStop();
         dx = usedSpeed;
         orientation = MoveTo.E;
 	}
 
 	public final void moveLeft() {
-        this.moveUpDownStop();
+        moveUpDownStop();
         dx = -usedSpeed;
         orientation = MoveTo.W;
 	}
 
 	public final void moveUp() {
-        this.moveLeftRightStop();
+        moveLeftRightStop();
         dy = -usedSpeed;
         orientation = MoveTo.N;
 	}
@@ -119,8 +105,8 @@ public abstract class Unit extends GameObject implements Moveable {
 	}
 
 	public final void moveStop() {
-        this.moveUpDownStop();
-        this.moveLeftRightStop();
+        moveUpDownStop();
+        moveLeftRightStop();
 	}
 
 	@Override
@@ -148,12 +134,12 @@ public abstract class Unit extends GameObject implements Moveable {
 			g.drawImage(image[imageIndex], imageX, imageY, null);
 		}
 
-		this.debugGUI(g);
+		debugGUI(g);
 	}
 	
 	private void debugGUI(final Graphics g) {
 		if (GuiDebugger.isDebugModeOn()) {
-			final Rectangle2D.Double actionArea = this.getActionArea();
+			final Rectangle2D.Double actionArea = getActionArea();
 
 			g.setColor(Color.CYAN);
 			g.drawRect(

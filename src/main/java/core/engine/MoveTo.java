@@ -6,11 +6,11 @@ public enum MoveTo {
 	S(0, 1),
 	W(-1, 0);
 
-	private int x;
+	private final int x;
 	
-	private int y;
+	private final int y;
 	
-	private MoveTo(final int x, final int y) {
+	MoveTo(final int x, final int y) {
 		this.x = x;
 		this.y = y;
 	}

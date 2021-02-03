@@ -42,8 +42,8 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
     public void interact(final Player player) {
         DIALOG_BOX.setNpc(this);
         DIALOG_BOX.setIsShowed(true);
-        this.lookAt(player.getOrientation());
-        this.removeWaypoint();
+        lookAt(player.getOrientation());
+        removeWaypoint();
     }
 
     public final Structure getHome() {
@@ -61,8 +61,8 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
     public void doLogic(final long delta) {
         super.doLogic(delta);
 
-        this.doNextDoable();
-        this.doDoing();
+        doNextDoable();
+        doDoing();
     }
 
     public final void doDoing() {
@@ -71,7 +71,7 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
 
     @Override
     public void move(final long delta) {
-        if (waypoint != null && waypoint.hasParent()) {
+        if (null != waypoint && waypoint.hasParent()) {
             final Sprite goal = waypoint.getParent().getCell();
             boolean finX = false;
             boolean finY = false;
@@ -94,14 +94,13 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
             }
 
             if ((dx != 0 && finX) || (dy != 0 && finY)) {
-                this.setPosition(goal.getPosition());
+                setPosition(goal.getPosition());
                 ((Cell) goal).entersCell();
             }
 
-            this.moveToWaypoint();
+            moveToWaypoint();
         }
     }
-
 
     public boolean isMoving() {
         return (dx != 0) || (dy != 0);
@@ -118,7 +117,7 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
 //            }
 //        }
 
-        if (sprite instanceof Structure && !this.isMoving() && !(doable instanceof DoNothing)) {
+        if (sprite instanceof Structure && !isMoving() && !(doable instanceof DoNothing)) {
             if (doable.doCollide((Structure) sprite)) {
                 isCollided = true;
             }
@@ -128,7 +127,7 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
     }
 
     private boolean cellCollidedTest(final Sprite sprite) {
-        return waypoint != null && waypoint.hasParent() && waypoint.getParent().getCell().equals(sprite)
+        return null != waypoint && waypoint.hasParent() && waypoint.getParent().getCell().equals(sprite)
                 && x == sprite.x && y == sprite.y;
     }
 
@@ -141,95 +140,63 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
 
     public void lookAt(final MoveTo direction) {
         switch (direction) {
-            case N:
-                orientation = MoveTo.S;
-                break;
-            case S:
-                orientation = MoveTo.N;
-                break;
-            case E:
-                orientation = MoveTo.W;
-                break;
-            case W:
-                orientation = MoveTo.E;
-                break;
+            case N -> orientation = MoveTo.S;
+            case S -> orientation = MoveTo.N;
+            case E -> orientation = MoveTo.W;
+            case W -> orientation = MoveTo.E;
         }
     }
 
-    /**
-     * Set a Waypoint on the position from the x and y coordinate (Point)
-     *
-     * @param x int
-     * @param y int
-     */
     public void setWaypoint(final int x, final int y) {
-        this.setWaypoint(new Point(x, y));
+        setWaypoint(new Point(x, y));
     }
 
-    /**
-     * Set a Waypoint on the position from the Point
-     *
-     * @param position Point
-     */
     public void setWaypoint(final Point position) {
-        this.calculateWayToWaypoint(position);
+        calculateWayToWaypoint(position);
     }
 
-    /**
-     * Calculate the Way to the Waypoint with the A* algorithm
-     */
     private void calculateWayToWaypoint(final Point position) {
         try {
             waypoint = MyAStar.getPathInArray(position, this);
         } catch (final InterruptedException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private void moveToWaypoint() {
-        if (!this.getPosition().equals(waypoint.getParent().getPosition())) {
+        if (!getPosition().equals(waypoint.getParent().getPosition())) {
             switch (waypoint.getMoveTo()) {
-                case N:
-                    this.moveDown();
-                    break;
-                case S:
-                    this.moveUp();
-                    break;
-                case W:
-                    this.moveRight();
-                    break;
-                case E:
-                    this.moveLeft();
-                    break;
+                case N -> moveDown();
+                case S -> moveUp();
+                case W -> moveRight();
+                case E -> moveLeft();
             }
         } else {
-            this.moveStop();
+            moveStop();
             if (waypoint.hasParent()) {
                 waypoint = waypoint.getParent();
             } else {
-                this.removeWaypoint();
+                removeWaypoint();
             }
         }
     }
 
-    /**
-     * remove the current waypoint an stop the movement
-     */
     public final void removeWaypoint() {
         waypoint = null;
-        this.moveStop();
+        moveStop();
     }
 
     @Override
     public void draw(final Graphics g) {
         super.draw(g);
 
-        if (GuiDebugger.isDebugModeOn() && waypoint != null) {
-            this.drawRoute(g);
+        if (GuiDebugger.isDebugModeOn() && null != waypoint) {
+            drawRoute(g);
         }
     }
 
     private void drawRoute(final Graphics g) {
-        Node testNode = waypoint;
+        var testNode = waypoint;
         g.setColor(new Color(255, 255, 255));
         while (testNode.hasParent()) {
             g.drawLine(
@@ -249,7 +216,7 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
 
     public void setRandomOrientation() {
         final MoveTo moveTo[] = MoveTo.values();
-        final Random random = new Random();
+        final var random = new Random();
         orientation = moveTo[random.nextInt(moveTo.length)];
     }
 
@@ -258,7 +225,7 @@ public abstract class NonPlayerCharacter extends Unit implements Integrable {
     }
 
     private void doNextDoable() {
-        if (doNext != null) {
+        if (null != doNext) {
             doable = doNext;
             doNext = null;
         }

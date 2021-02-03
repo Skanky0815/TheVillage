@@ -25,9 +25,9 @@ public class DoCollect implements Doable, ActionListener {
         GO_TO_SIGN, SEARCH, COLLECT, GO_TO_WAREHOUSE, STORE
     }
 
-    private Timer collectTimer;
+    private final Timer collectTimer;
 
-    private Timer startAgainTimer;
+    private final Timer startAgainTimer;
 
     private NonPlayerCharacter npc;
 
@@ -54,21 +54,11 @@ public class DoCollect implements Doable, ActionListener {
         this.npc = npc;
 
         switch (currentStep) {
-            case GO_TO_SIGN:
-                this.goToSing();
-                break;
-            case SEARCH:
-                this.goToResource();
-                break;
-            case COLLECT:
-                collectTimer.start();
-                break;
-            case GO_TO_WAREHOUSE:
-                this.goToWarehouse();
-                break;
-            case STORE:
-                this.store();
-                break;
+            case GO_TO_SIGN -> goToSing();
+            case SEARCH -> goToResource();
+            case COLLECT -> collectTimer.start();
+            case GO_TO_WAREHOUSE -> goToWarehouse();
+            case STORE -> store();
         }
     }
 
@@ -113,7 +103,7 @@ public class DoCollect implements Doable, ActionListener {
         final List<Warehouse> warehouseList = SpriteSet.getInstance().getActorsByClass(Warehouse.class);
 
         if(!warehouseList.isEmpty()) {
-            this.warehouse = warehouseList.get(0);
+            warehouse = warehouseList.get(0);
         } else {
             npc.setNextDoable(new DoGoHome());
         }
@@ -122,14 +112,14 @@ public class DoCollect implements Doable, ActionListener {
     @SuppressWarnings("unchecked")
     private void findResource() {
         resource = (Resource) SpriteSet.getInstance().getClosestActor(resourceSign.getPosition(), ofClass);
-        if (resource == null) {
+        if (null == resource) {
             npc.setNextDoable(new DoGoHome());
         }
     }
 
     private void goToSing() {
-        if (resourceSign == null) {
-            this.findResourceSign();
+        if (null == resourceSign) {
+            findResourceSign();
         } else {
             isRandomOrientationBlocked = false;
             npc.setWaypoint(resourceSign.getPosition());
@@ -137,8 +127,8 @@ public class DoCollect implements Doable, ActionListener {
     }
 
     private void goToWarehouse() {
-        if (warehouse == null) {
-            this.findWarehouse();
+        if (null == warehouse) {
+            findWarehouse();
         } else {
             isRandomOrientationBlocked = false;
             npc.setWaypoint(warehouse.getPosition() );
@@ -146,8 +136,8 @@ public class DoCollect implements Doable, ActionListener {
     }
 
     private void goToResource() {
-        if (resource == null || resource.isRemove()) {
-            this.findResource();
+        if (null == resource || resource.isRemove()) {
+            findResource();
         } else {
             isRandomOrientationBlocked = false;
             npc.setWaypoint(resource.getPosition());
@@ -155,14 +145,14 @@ public class DoCollect implements Doable, ActionListener {
     }
 
     private void collect() {
-        if (resource == null || resource.isRemove()) {
+        if (null == resource || resource.isRemove()) {
             currentStep = CollectSteps.SEARCH;
         }
 
-        final Backpack backpack = npc.getBackpack();
+        final var backpack = npc.getBackpack();
         if (backpack.getResourceSize() < Backpack.MAX_RESOURCE_CAPACITY) {
-            final ResourcesType resourcesType = resource.collect();
-            if (resourcesType == null) {
+            final var resourcesType = resource.collect();
+            if (null == resourcesType) {
                 resource = null;
                 currentStep = CollectSteps.SEARCH;
             } else {
@@ -176,7 +166,7 @@ public class DoCollect implements Doable, ActionListener {
 
     private void store() {
         if (!startAgainTimer.isRunning()) {
-            final Backpack backpack = npc.getBackpack();
+            final var backpack = npc.getBackpack();
             for (int i = 0; i < backpack.getResourceSize(); i++) {
                 warehouse.storeResource(backpack.getResource(i));
                 backpack.removeResource(i);
@@ -188,7 +178,7 @@ public class DoCollect implements Doable, ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(collectTimer)) {
-            this.collect();
+            collect();
         }
 
         if (e.getSource().equals(startAgainTimer)) {

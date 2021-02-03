@@ -9,10 +9,10 @@ public class Resources {
 	
 	private static Resources instance;
 	
-	private Map<ResourcesType, Resource> resources;
+	private final Map<ResourcesType, Resource> resources;
 
 	private Resources() {
-        resources = new HashMap<ResourcesType, Resource>();
+        resources = new HashMap<>();
         resources.put(ResourcesType.GOLD, this.getGold());
         resources.put(ResourcesType.WOOD, this.getWood());
 	}
@@ -29,7 +29,7 @@ public class Resources {
 	}
 	
 	public static Resources getInstance() {
-		if (instance == null) {
+		if (null == instance) {
 			instance = new Resources();
 		}
 		return instance;

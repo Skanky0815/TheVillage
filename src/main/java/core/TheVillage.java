@@ -48,7 +48,7 @@ public class TheVillage extends AbstractModule {
 
     private void run(final Injector injector) {
         final var titleFormat = new MessageFormat(Translator.translate("game.name"));
-        final Object[] arguments = { this.config.getProperty(PropertyName.APP_VERSION) };
+        final Object[] arguments = { config.getProperty(PropertyName.APP_VERSION) };
         new GameFrame(titleFormat.format(arguments), injector);
     }
 

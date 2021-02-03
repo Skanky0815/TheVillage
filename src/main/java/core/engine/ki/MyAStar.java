@@ -19,9 +19,9 @@ public class MyAStar {
 
 		private MoveTo moveTo;
 
-		private Cell cell;
+		private final Cell cell;
 
-		private Point position;
+		private final Point position;
 
 		private float f, g, h;
 
@@ -64,32 +64,32 @@ public class MyAStar {
 
 		@Override
 		public String toString() {
-			return this.getClass().getName() + "@[position=" + position.x + "|"
+			return getClass().getName() + "@[position=" + position.x + "|"
 					+ position.y + ", moveTo=" + moveTo + ", parent=" + parent + "]";
 		}
 
         public boolean hasParent() {
-            return parent != null;
+            return null != parent;
         }
 	}
 
 	public static Node getPathInArray(final Point goal, final Unit unit) throws InterruptedException {
 
-		final List<Node> openList = new Vector<Node>();
-		final List<Node> closedList = new Vector<Node>();
+		final List<Node> openList = new Vector<>();
+		final List<Node> closedList = new Vector<>();
 
-        final MapBuilder mapBuilder = MapBuilder.getInstance();
-		final Cell startCell = mapBuilder.getCellByPoint(goal);
-		final Node startNode = new Node(null, startCell, 0, 0, unit.getPosition());
+        final var mapBuilder = MapBuilder.getInstance();
+		final var startCell = mapBuilder.getCellByPoint(goal);
+		final var startNode = new Node(null, startCell, 0, 0, unit.getPosition());
 
 		openList.add(startNode);
 		while (!openList.isEmpty()) {
-			final Node node = getLastF(openList);
+			final var node = getLastF(openList);
 			openList.remove(node);
 
-			final Vector<Node> successors = new Vector<Node>();
+			final Vector<Node> successors = new Vector<>();
 
-			for (final MoveTo moveTo : MoveTo.values()) {
+			for (final var moveTo : MoveTo.values()) {
 				MyAStar.testNextNode(node, moveTo, successors, unit.getPosition());
 			}
 
@@ -119,7 +119,7 @@ public class MyAStar {
 	}
 
 	private static boolean betterAt(final Node successorNode, final List<Node> openList) {
-		for (final Node node : openList) {
+		for (final var node : openList) {
 			if (node.getPosition().equals(successorNode.getPosition())
 					&& node.getF() <= successorNode.getF()) {
 				return true;
@@ -129,15 +129,15 @@ public class MyAStar {
 	}
 
 	private static void testNextNode(final Node node, final MoveTo moveTo, final Vector<Node> successors, final Point goal) {
-		final int x = node.getCell().getPosition().x + moveTo.getX();
-		final int y = node.getCell().getPosition().y + moveTo.getY();
-		final Point newPosition = new Point(x, y);
+		final var x = node.getCell().getPosition().x + moveTo.getX();
+		final var y = node.getCell().getPosition().y + moveTo.getY();
+		final var newPosition = new Point(x, y);
 
 		try {
-            final MapBuilder mapBuilder = MapBuilder.getInstance();
-			final Cell cell = mapBuilder.getCellByPoint(newPosition);
+            final var mapBuilder = MapBuilder.getInstance();
+			final var cell = mapBuilder.getCellByPoint(newPosition);
             if (cell.canGo() || cell.getPosition().equals(goal)) {
-                final Node n = new Node(node, cell, newPosition);
+                final var n = new Node(node, cell, newPosition);
                 n.setMoveTo(moveTo);
                 MyAStar.calcNode(n, goal, successors);
             }
@@ -147,7 +147,7 @@ public class MyAStar {
 	private static Node getLastF(final List<Node> openList) {
 		Node last = null;
 		for (final Node node : openList) {
-			if ((last == null) || (node.getF() < last.getF())) {
+			if ((null == last) || (node.getF() < last.getF())) {
 				last = node;
 			}
 		}
@@ -158,18 +158,12 @@ public class MyAStar {
 		node.g = calcG(node);
 		node.h = calcH(node, goal);
 
-		int value = 0;
-		switch (node.getCell().getType()) {
-		case GRASS:
-			value = 2;
-			break;
-		case PATH:
-			value = 1;
-            break;
-		case WOOD:
-			value = 6;
-			break;
-		}
+		var value = switch (node.getCell().getType()) {
+			case GRASS -> 2;
+			case PATH -> 1;
+			case WOOD -> 6;
+			default -> 0;
+		};
 
 		node.g += value;
 		node.f = node.g + node.h;
@@ -177,14 +171,14 @@ public class MyAStar {
 	}
 
 	private static float calcH(final Node node, final Point goal) {
-		final int distX = Math.abs(node.getPosition().x - goal.x);
-		final int distY = Math.abs(node.getPosition().y - goal.y);
+		final var distX = Math.abs(node.getPosition().x - goal.x);
+		final var distY = Math.abs(node.getPosition().y - goal.y);
 
 		return (float) Math.sqrt(distX * distX + distY * distY);
 	}
 
 	private static float calcG(final Node node) {
-		final Node newNode = node.getParent();
+		final var newNode = node.getParent();
 		return newNode.g + 1;
 	}
 }
