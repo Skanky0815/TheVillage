@@ -4,20 +4,17 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.google.inject.Inject;
-import core.TheVillage;
 import core.engine.components.service.AbstractService;
 import core.helper.Config;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
 import org.apache.logging.log4j.Logger;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 /**
  * Created by RICO on 04.04.2015.
  */
 public class XMLReaderService extends AbstractService {
-
-    private String rootPath = TheVillage.BASE_RESOURCES_PATH;
 
     @Inject
     public XMLReaderService(final Logger log, final Config config) {
@@ -25,7 +22,7 @@ public class XMLReaderService extends AbstractService {
     }
 
     public ArrayList<Object> loadAllXml(final String filePath, final Class className) {
-        final File folder = new File(this.rootPath + filePath);
+        final var folder = new File(filePath);
         if (!folder.isDirectory()) {
             this.log.error("Given path '" + filePath + "' is not a folder or do not exists!");
             return null;
@@ -43,8 +40,8 @@ public class XMLReaderService extends AbstractService {
 
     public Object loadXml(final File file, final Class className) {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(className);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            final var jaxbContext = JAXBContext.newInstance(className);
+            final var unmarshaller = jaxbContext.createUnmarshaller();
 
             return unmarshaller.unmarshal(file);
         } catch (JAXBException e) {
@@ -56,7 +53,7 @@ public class XMLReaderService extends AbstractService {
     }
 
     public Object loadXml(final String filePath, final Class className) {
-        final File file =  new File(this.rootPath + filePath);
+        final File file =  new File(filePath);
         return this.loadXml(file, className);
     }
 }

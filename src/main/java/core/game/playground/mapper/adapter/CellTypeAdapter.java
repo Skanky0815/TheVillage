@@ -1,7 +1,7 @@
 package core.game.playground.mapper.adapter;
 
 import core.game.playground.CellType;
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * User: RICO

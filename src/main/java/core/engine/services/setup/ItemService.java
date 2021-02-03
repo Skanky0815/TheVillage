@@ -12,27 +12,14 @@ import java.util.HashMap;
 
 /**
  * Created by RICO on 04.04.2015.
- *
- * The ItemService class load all resources xml files form the resources and generate a HashMap with representing
- * Resource classes
  */
 @Singleton
 public class ItemService extends AbstractSetupService {
 
-    /**
-     * A HashMap with all Resources with the ResourceType as Key
-     */
-    private HashMap<ResourcesType, Resource> resourceHashMap;
+    private final HashMap<ResourcesType, Resource> resourceHashMap;
 
-    /**
-     * The Constructor
-     *
-     * @param log               The logging class
-     * @param config            The game config class
-     * @param xmlReaderService  The service to load the xml files
-     */
     @Inject
-    ItemService(Logger log, Config config, XMLReaderService xmlReaderService) {
+    ItemService(final Logger log, final Config config, final XMLReaderService xmlReaderService) {
         super(log, config, xmlReaderService);
 
         this.resourceHashMap = new HashMap<>();
@@ -40,14 +27,7 @@ public class ItemService extends AbstractSetupService {
         this.init();
     }
 
-    /**
-     * Return the Resource with is represented by the given key
-     *
-     * @param key The ResourcesType with is use as key
-     *
-     * @return The founded Resource or null if not found
-     */
-    public Resource getItem(ResourcesType key) {
+    public Resource getItem(final ResourcesType key) {
         if (resourceHashMap.containsKey(key)) {
             return resourceHashMap.get(key);
         }
@@ -56,11 +36,9 @@ public class ItemService extends AbstractSetupService {
         return null;
     }
 
-    /**
-     * This method load all resources form the resources dir and store them into the local HashMap
-     */
     private void init() {
-        for (final Object resource: xmlReaderService.loadAllXml("items/resources/", Resource.class)) {
+        final var path = getClass().getClassLoader().getResource("items/resources").getPath();
+        for (final Object resource: xmlReaderService.loadAllXml(path, Resource.class)) {
             if (resource instanceof Resource) {
                 resourceHashMap.put(((Resource) resource).getType(), (Resource) resource);
             }

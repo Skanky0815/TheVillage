@@ -19,16 +19,12 @@ public class TheVillage extends AbstractModule {
 
     public static final String FS = File.separator;
 
-    public static final String BASE_RESOURCES_PATH = "src" + FS + "main" + FS + "resources" + FS;
-
-    private static final String CONFIG_PATH = BASE_RESOURCES_PATH + "AppConfig.properties";
-
     private Config config;
 
-	public static void main(String[] args) {
-        final TheVillage game = new TheVillage();
-        final Injector injector = Guice.createInjector(game);
-        final Config config = game.loadConfig(injector.getInstance(Config.class));
+	public static void main(final String[] args) {
+        final var game = new TheVillage();
+        final var injector = Guice.createInjector(game);
+        final var config = game.loadConfig(injector.getInstance(Config.class));
         game.setupLogging();
 
         Translator.setLocale(new Locale(config.getProperty(PropertyName.APP_LANGUAGE)));
@@ -51,7 +47,7 @@ public class TheVillage extends AbstractModule {
     }
 
     private void run(final Injector injector) {
-        final MessageFormat titleFormat = new MessageFormat(Translator.translate("game.name"));
+        final var titleFormat = new MessageFormat(Translator.translate("game.name"));
         final Object[] arguments = { this.config.getProperty(PropertyName.APP_VERSION) };
         new GameFrame(titleFormat.format(arguments), injector);
     }
@@ -63,7 +59,7 @@ public class TheVillage extends AbstractModule {
 
     private Config loadConfig(final Config config) {
         try {
-            config.setConfigPath(CONFIG_PATH);
+            config.setConfigPath(getClass().getClassLoader().getResource("AppConfig.properties").getFile());
             config.init();
             this.config = config;
             return config;

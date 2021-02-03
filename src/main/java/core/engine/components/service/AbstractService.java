@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class AbstractService {
 
-    protected Logger log = null;
+    protected final Logger log;
 
-    protected Config config = null;
+    protected final Config config;
 
     public AbstractService(final Logger log, final Config config) {
         this.log = log;

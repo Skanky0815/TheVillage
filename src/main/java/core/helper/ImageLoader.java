@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import core.TheVillage;
 import core.engine.MoveTo;
 import core.game.item.ResourcesType;
 import core.game.playground.CellType;
@@ -22,7 +21,7 @@ public class ImageLoader {
 
     private static final Logger LOGGER = LogManager.getLogger(ImageLoader.class);
 
-    private static final String ROOT_IMAGE_PATH = TheVillage.BASE_RESOURCES_PATH + "image" + File.separator;
+    private static final String ROOT_IMAGE_PATH = "/image" + File.separator;
 
     private static Map<BuildingType, BufferedImage[]> buildingIcons;
 
@@ -188,7 +187,7 @@ public class ImageLoader {
 
 	private static BufferedImage[] loadImage(final String path, final int pics) {
         BufferedImage source = null;
-        final File file = new File(path);
+        final var file = new File(ImageLoader.class.getResource(path).getFile());
 		try {
 			source = ImageIO.read(file);
 		} catch (IOException ignored) {

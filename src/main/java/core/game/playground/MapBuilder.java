@@ -14,10 +14,9 @@ import core.engine.Drawable;
 import core.engine.Sprite;
 import core.game.playground.mapper.Map;
 import core.helper.GuiDebugger;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
@@ -25,9 +24,9 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
     private static final MapBuilder instance = new MapBuilder();
 
-	private Vector<Sprite> cellList;
+	private final Vector<Sprite> cellList;
 
-    private Point defaultSpawnPoint;
+    private final Point defaultSpawnPoint;
 
     private MapBuilder() {
         x = 50;
@@ -35,7 +34,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
         defaultSpawnPoint = new Point(5, 2);
 
         cellList = new Vector<>();
-        this.loadMap();
+        loadMap();
 
         width = x * PositionMapper.SIZE;
         height = y * PositionMapper.SIZE;
@@ -46,10 +45,9 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
     }
 
     private void loadMap() {
-        JAXBContext jaxbContext;
         try {
-            jaxbContext = JAXBContext.newInstance(Map.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            final var jaxbContext = JAXBContext.newInstance(Map.class);
+            final var unmarshaller = jaxbContext.createUnmarshaller();
 
             final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getFile();
             final Map map = (Map) unmarshaller.unmarshal(new File(path));
@@ -205,27 +203,16 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
             final var marshaller = jc.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(map, new FileOutputStream(path));
-        } catch (Exception  ignore) {
-
+        } catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
-	/**
-	 * Get a Cell by maps x and y coordinate
-	 * @param x int
-	 * @param y int
-	 * @return Cell
-	 */
     @SuppressWarnings("unused")
 	public Cell getCellByPoint(final int x, final int y) throws IndexOutOfBoundsException {
 		return this.getCellByPoint(new Point(x, y));
 	}
 
-	/**
-	 * Get a Cell by a Point
-	 * @param point Point
-	 * @return Cell
-	 */
 	public Cell getCellByPoint(final Point point) {
 		for (final Sprite cell : cellList) {
 			if (cell.getPosition().equals(point) && cell instanceof Cell) {
@@ -236,12 +223,6 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 		throw new IndexOutOfBoundsException(MapBuilder.CELL_NOT_FOUND);
 	}
 
-	/**
-	 * Get a Cell by the X and Y coordinate from the JPanel
-	 * @param x double
-	 * @param y double
-	 * @return Cell
-	 */
     @SuppressWarnings("unused")
 	public Cell getCellByPix(final double x, final double y) {
 		for (final Sprite cell : cellList) {
@@ -257,10 +238,6 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
         return new Point(defaultSpawnPoint);
     }
 
-	/**
-	 * Get the map as list for game logic
-	 * @return Vector[Cell]
-	 */
     @SuppressWarnings("unused")
 	public Vector<Sprite> getCellList() {
 		return this.cellList;

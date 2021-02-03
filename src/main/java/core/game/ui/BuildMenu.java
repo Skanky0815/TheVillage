@@ -30,7 +30,6 @@ public class BuildMenu extends Rectangle2D.Double implements Drawable {
 	private Map<String, BufferedImage[]> guiImage;
 	
 	private GameFont gameFont;
-	
 
 	private int buildingTyp;
 
