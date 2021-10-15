@@ -32,7 +32,7 @@ public final class Translator {
             try {
                 return resourceBundle.getString(key);
             } catch (final MissingResourceException e) {
-                return  INDICATOR_MISSING_KEY + key;
+                return INDICATOR_MISSING_KEY + key;
             }
         }
 

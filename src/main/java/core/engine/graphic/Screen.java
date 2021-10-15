@@ -56,7 +56,7 @@ public abstract class Screen extends JPanel implements Runnable {
 	}
 
 	public final void addNotify() {
-		addNotify();
+		super.addNotify();
         startGame();
 	}
 
@@ -160,8 +160,9 @@ public abstract class Screen extends JPanel implements Runnable {
             dbImage = createImage(GameFrame.pWidth, GameFrame.pHeight);
 			if (null == dbImage) {
 				return;
-			} else
-                dbg = dbImage.getGraphics();
+			} else {
+				dbg = dbImage.getGraphics();
+			}
 		}
 
         dbg.setColor(Color.white);
@@ -169,9 +170,8 @@ public abstract class Screen extends JPanel implements Runnable {
 	}
 
 	private void paintScreen() {
-		Graphics g;
 		try {
-			g = getGraphics();
+			var g = getGraphics();
 			if ((null != g) && (null != dbImage)) {
 				g.drawImage(dbImage, 0, 0, null);
 			}
