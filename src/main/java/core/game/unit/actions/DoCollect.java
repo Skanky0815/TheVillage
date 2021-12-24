@@ -39,7 +39,7 @@ public class DoCollect implements Doable, ActionListener {
 
     private Resource resource = null;
 
-    private Class ofClass;
+    private final Class ofClass;
 
     private boolean isRandomOrientationBlocked = false;
 

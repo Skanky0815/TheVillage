@@ -2,6 +2,7 @@ package core.engine.services;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.inject.Inject;
 import core.engine.components.service.AbstractService;
@@ -21,11 +22,11 @@ public class XMLReaderService extends AbstractService {
         super(log, config);
     }
 
-    public ArrayList<Object> loadAllXml(final String filePath, final Class className) {
+    public List<Object> loadAllXml(final String filePath, final Class className) {
         final var folder = new File(filePath);
         if (!folder.isDirectory()) {
             this.log.error("Given path '" + filePath + "' is not a folder or do not exists!");
-            return null;
+            return new ArrayList<>();
         }
 
         final ArrayList<Object> objects = new ArrayList<>();

@@ -11,7 +11,7 @@ public final class DebuggingBox extends Rectangle2D.Double implements Drawable {
 
     private static DebuggingBox instance;
 
-    private List<String> output;
+    private final List<String> output;
 
     private static final int MAX_STRINGS = 10;
 
@@ -23,7 +23,7 @@ public final class DebuggingBox extends Rectangle2D.Double implements Drawable {
     }
 
     private DebuggingBox() {
-        this.output = new ArrayList<String>();
+        this.output = new ArrayList<>();
 
         width = 400;
         height = 200;

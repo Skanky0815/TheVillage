@@ -11,11 +11,11 @@ import core.helper.GuiDebugger;
 
 public abstract class Resource extends Structure implements Collectable {
 
-	private int maxLife;
+	private final int maxLife;
 
 	private int currentLife;
 	
-	private ResourcesType type;
+	private final ResourcesType type;
 	
 	public Resource(final Point position, final ResourcesType type, final int maxLife) {
 		super(position);

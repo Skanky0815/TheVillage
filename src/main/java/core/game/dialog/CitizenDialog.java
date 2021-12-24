@@ -12,10 +12,9 @@ public class CitizenDialog implements Speakable {
 
     private final Dialog dialog;
 
-    private static List<String> dialogOpenings;
+    private static final List<String> dialogOpenings = new ArrayList<>();
 
     public CitizenDialog() {
-        dialogOpenings = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             dialogOpenings.add(Translator.translate("citizen.dialog.opening." + i));
         }

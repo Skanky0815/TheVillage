@@ -98,10 +98,7 @@ public class MyAStar {
 					return successorNode;
 				}
 
-				boolean add = true;
-				if (MyAStar.betterAt(successorNode, openList)) {
-					add = false;
-				}
+				boolean add = !MyAStar.betterAt(successorNode, openList);
 
 				if (MyAStar.betterAt(successorNode, closedList)) {
 					add = false;

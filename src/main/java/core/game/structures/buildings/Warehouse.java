@@ -15,7 +15,7 @@ import core.helper.Translator;
 
 public class Warehouse extends Structure implements Integrable {
 
-    private Map<ResourcesType, Integer> resourcesStore = new HashMap<ResourcesType, Integer>();
+    private final Map<ResourcesType, Integer> resourcesStore = new HashMap<>();
 
 	public Warehouse(final Point position) {
 		super(position, 2, 2);

@@ -9,10 +9,9 @@ public class Resources {
 	
 	private static Resources instance;
 	
-	private final Map<ResourcesType, Resource> resources;
+	private final Map<ResourcesType, Resource> resources = new HashMap<>();
 
 	private Resources() {
-        resources = new HashMap<>();
         resources.put(ResourcesType.GOLD, this.getGold());
         resources.put(ResourcesType.WOOD, this.getWood());
 	}

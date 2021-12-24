@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.Map;
 
 import core.control.BuildMenuControl;
@@ -19,17 +20,18 @@ import core.helper.ImageLoader;
 
 public class BuildMenu extends Rectangle2D.Double implements Drawable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static BuildMenu instance;
 	
-	private BuildMenuControl buildmenuControl;
+	private final BuildMenuControl buildmenuControl;
 	
-	private Resources resources;
+	private final Resources resources;
 	
-	private Map<String, BufferedImage[]> guiImage;
+	private final Map<String, BufferedImage[]> guiImage;
 	
-	private GameFont gameFont;
+	private final GameFont gameFont;
 
 	private int buildingTyp;
 

@@ -53,7 +53,7 @@ public class GamePanel extends Screen implements ActionListener {
 
         addKeyListener(GameKeyListener.getInstance());
 
-		final InventoryService inventoryService = injector.getInstance(InventoryService.class);
+		final var inventoryService = injector.getInstance(InventoryService.class);
 		this.inventoryService = inventoryService;
 		inventory = inventoryService.getUi();
 

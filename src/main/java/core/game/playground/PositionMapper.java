@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class PositionMapper {
 
-    private static PositionMapper instance = new PositionMapper();
+    private static final PositionMapper instance = new PositionMapper();
 
     private Rectangle2D.Double[][] area;
 

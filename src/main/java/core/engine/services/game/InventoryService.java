@@ -24,9 +24,9 @@ public class InventoryService extends AbstractService implements InterfaceRender
 
     private final ItemService itemService;
 
-    private Inventory ui;
+    private final Inventory ui;
 
-    private List<ResourcesType> itemList;
+    private final List<ResourcesType> itemList;
 
     @Inject
     public InventoryService(

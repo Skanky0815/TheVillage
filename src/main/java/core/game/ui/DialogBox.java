@@ -15,7 +15,7 @@ public class DialogBox extends Rectangle2D.Double implements Drawable {
 
 	private static DialogBox instance;
 
-	private DialogControl dialogControl;
+	private final DialogControl dialogControl;
 
 	private boolean isShowed;
 

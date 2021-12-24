@@ -119,8 +119,7 @@ public class Player extends Unit {
             case FIELD:
                 calculateSpeed(0.9);
                 break;
-            case GRASS:
-            case HILL:
+            case GRASS, HILL:
                 calculateSpeed(1);
                 break;
             case RIVER:

@@ -55,6 +55,7 @@ public abstract class Screen extends JPanel implements Runnable {
 		}
 	}
 
+	@Override
 	public final void addNotify() {
 		super.addNotify();
         startGame();

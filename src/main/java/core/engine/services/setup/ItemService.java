@@ -16,13 +16,11 @@ import java.util.HashMap;
 @Singleton
 public class ItemService extends AbstractSetupService {
 
-    private final HashMap<ResourcesType, Resource> resourceHashMap;
+    private final HashMap<ResourcesType, Resource> resourceHashMap = new HashMap<>();
 
     @Inject
     ItemService(final Logger log, final Config config, final XMLReaderService xmlReaderService) {
         super(log, config, xmlReaderService);
-
-        this.resourceHashMap = new HashMap<>();
 
         this.init();
     }

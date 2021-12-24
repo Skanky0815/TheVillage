@@ -3,6 +3,7 @@ package core.game.structures.environment;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.io.Serial;
 
 import core.engine.Sprite;
 import core.game.item.ResourcesType;
@@ -10,6 +11,7 @@ import core.game.structures.Structure;
 
 public class Grain extends Structure implements Collectable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private int grain;

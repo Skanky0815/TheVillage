@@ -20,7 +20,7 @@ public class House extends Spawn implements Integrable {
 
 	private boolean isInteract = false;
 
-	private int maxResidents;
+	private final int maxResidents;
 
 	private int currentNumberOfResidents;
 

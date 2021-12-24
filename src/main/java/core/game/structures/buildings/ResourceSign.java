@@ -17,7 +17,7 @@ import core.helper.Translator;
 
 public class ResourceSign extends Structure implements Integrable {
 
-	private BuildingType singType;
+	private final BuildingType singType;
 	
 	private Class resource;
 	
@@ -61,13 +61,11 @@ public class ResourceSign extends Structure implements Integrable {
 	}
 	
 	public static Blueprint getBlueprint(final ResourcesType type) {
-		switch (type) {
-            case WOOD:
-                return ResourceSign.getWoodsignBlueprint();
-            case GOLD:
-                return ResourceSign.getGoldveinSignBlueprint();
-		}
-        return null;
+		return switch (type) {
+			case WOOD -> ResourceSign.getWoodsignBlueprint();
+			case GOLD -> ResourceSign.getGoldveinSignBlueprint();
+			default -> null;
+		};
 	}
 	
 	private static Blueprint getWoodsignBlueprint() {

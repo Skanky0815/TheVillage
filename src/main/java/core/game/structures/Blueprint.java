@@ -31,7 +31,7 @@ public class Blueprint {
 	private BuildingType type = null;
 	
 	public Blueprint() {
-        priceList = new HashMap<ResourcesType, Integer>();
+        priceList = new HashMap<>();
 	}
 
 	public void setType(final BuildingType type) {
@@ -79,22 +79,15 @@ public class Blueprint {
 	}
 	
 	public void createBuilding(final Point position) {
-        switch (type) {
-            case TREE:
-                new Tree(position);
-                final Cell cell = MapBuilder.getInstance().getCellByPoint(position);
-                cell.setCellTyp(CellType.WOOD);
-			    break;
-            case HOUSE:
-                new House(position);
-                break;
-            case GOLDVEIN_SIGN:
-            case WOOD_SIGN:
-                new ResourceSign(position, type);
-                break;
-            case WAREHOUSE:
-                new Warehouse(position);
-                break;
+		switch (type) {
+			case TREE -> {
+				new Tree(position);
+				final Cell cell = MapBuilder.getInstance().getCellByPoint(position);
+				cell.setCellTyp(CellType.WOOD);
+			}
+			case HOUSE -> new House(position);
+			case GOLDVEIN_SIGN, WOOD_SIGN -> new ResourceSign(position, type);
+			case WAREHOUSE -> new Warehouse(position);
 		}
 	}
 }

@@ -77,18 +77,11 @@ public final class Cell extends GameObject {
 
     @Override
 	public boolean collideWith(final Sprite sprite) {
-        boolean isCollided = false;
-		if (sprite instanceof NonPlayerCharacter) {
-			if (contains(sprite.getCenterPoint())) {
-                isCollided = true;
-			}
-		}
+        boolean isCollided = sprite instanceof NonPlayerCharacter && contains(sprite.getCenterPoint());
 
-        if (sprite instanceof Player) {
-            if (contains(sprite.getCenterPoint())) {
-                sprite.setPosition(getPosition());
-                isCollided = true;
-            }
+        if (sprite instanceof Player && contains(sprite.getCenterPoint())) {
+            sprite.setPosition(getPosition());
+            isCollided = true;
         }
 
         if (!isCollided) {
@@ -113,16 +106,16 @@ public final class Cell extends GameObject {
 
 	private void switchCellTyp() {
         switch (type) {
-            case GRASS:
+            case GRASS -> {
                 type = CellType.PATH;
                 hasStructure = true;
-                break;
-            case PATH:
+            }
+            case PATH -> {
                 type = CellType.STREET;
                 hasStructure = true;
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 	}
 

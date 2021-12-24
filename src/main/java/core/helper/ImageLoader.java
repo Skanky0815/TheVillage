@@ -65,7 +65,7 @@ public class ImageLoader {
 	private static void loadBuildings() {
 		final String path = ROOT_IMAGE_PATH + "buildings" + File.separator;
 
-		buldings = new HashMap<BuildingType, BufferedImage[]>();
+		buldings = new HashMap<>();
 		buldings.put(BuildingType.WOOD_SIGN,     ImageLoader.loadImage(path + "wood_sign.png", 1));
         buldings.put(BuildingType.GOLDVEIN_SIGN, ImageLoader.loadImage(path + "goldvein_sign.png", 1));
 		buldings.put(BuildingType.HOUSE,         ImageLoader.loadImage(path + "house.png", 1));
@@ -75,15 +75,15 @@ public class ImageLoader {
 	private static void loadCitizenImage() {
 		final String path = ROOT_IMAGE_PATH + "citizen" + File.separator;
 		
-		citizenImages = new ArrayList<Map<String, BufferedImage[]>>(); 
-		final Map<String, BufferedImage[]> citizen1 = new HashMap<String, BufferedImage[]>();
+		citizenImages = new ArrayList<>();
+		final Map<String, BufferedImage[]> citizen1 = new HashMap<>();
 		citizen1.put(MoveTo.S.toString(), ImageLoader.loadImage(path + "citizen1_WalkDown.png", 4));
 		citizen1.put(MoveTo.W.toString(), ImageLoader.loadImage(path + "citizen1_WalkLeft.png", 4));
 		citizen1.put(MoveTo.E.toString(), ImageLoader.loadImage(path + "citizen1_WalkRight.png", 4));
 		citizen1.put(MoveTo.N.toString(), ImageLoader.loadImage(path + "citizen1_WalkUp.png", 4));
 		citizenImages.add(citizen1);
 		
-		final Map<String, BufferedImage[]> citizen2 = new HashMap<String, BufferedImage[]>();
+		final Map<String, BufferedImage[]> citizen2 = new HashMap<>();
 		citizen2.put(MoveTo.S.toString(), ImageLoader.loadImage(path + "citizen2_WalkDown.png", 4));
 		citizen2.put(MoveTo.W.toString(), ImageLoader.loadImage(path + "citizen2_WalkLeft.png", 4));
 		citizen2.put(MoveTo.E.toString(), ImageLoader.loadImage(path + "citizen2_WalkRight.png", 4));
@@ -94,7 +94,7 @@ public class ImageLoader {
 	private static void loadGUI() {
 		final String path = ROOT_IMAGE_PATH + "gui" + File.separator;
 		
-		defaultGUIElements = new HashMap<String, BufferedImage[]>();
+		defaultGUIElements = new HashMap<>();
 		defaultGUIElements.put("arrow_up",      ImageLoader.loadImage(path + "arrow_up.png", 1));
 		defaultGUIElements.put("arrow_down",    ImageLoader.loadImage(path + "arrow_down.png", 1));
 		defaultGUIElements.put("arrow_left",    ImageLoader.loadImage(path + "arrow_left.png", 1));
@@ -108,7 +108,7 @@ public class ImageLoader {
 	private static void playerBar(String path) {
 		path += "playerbar" + File.separator;
 		
-		guiPlayerBar = new HashMap<String, BufferedImage[]>();
+		guiPlayerBar = new HashMap<>();
 		guiPlayerBar.putAll(defaultGUIElements);
 		guiPlayerBar.put("background", ImageLoader.loadImage(path + "background.png", 1));
 	}
@@ -116,7 +116,7 @@ public class ImageLoader {
 	private static void loadInventory(String path) {
 		path += "inventory" + File.separator;
 		
-		guiInventory = new HashMap<String, BufferedImage[]>();
+		guiInventory = new HashMap<>();
 		guiInventory.putAll(defaultGUIElements);
 		guiInventory.put("selection",       ImageLoader.loadImage(path + "selection.png", 1));
 		guiInventory.put("list",            ImageLoader.loadImage(path + "list.png", 1));
@@ -128,7 +128,7 @@ public class ImageLoader {
 	private static void loadBuildMenu(String path) {
 		path += "buildmenu" + File.separator;
 		
-		guiBuildMenu = new HashMap<String, BufferedImage[]>();
+		guiBuildMenu = new HashMap<>();
 		guiBuildMenu.putAll(defaultGUIElements);
 		guiBuildMenu.put("selection",       ImageLoader.loadImage(path + "selection.png", 1));
 		guiBuildMenu.put("background",      ImageLoader.loadImage(path + "background.png", 1));
@@ -141,7 +141,7 @@ public class ImageLoader {
 	private static void loadCellImage() {
 		final String path = ROOT_IMAGE_PATH + "cells" + File.separator;
 		
-		cellImage = new HashMap<CellType, BufferedImage[]>();
+		cellImage = new HashMap<>();
 		cellImage.put(CellType.GRASS,   ImageLoader.loadImage(path + "grass.png", 1));
 		cellImage.put(CellType.STREET,  ImageLoader.loadImage(path + "street.png", 1));
 		cellImage.put(CellType.PATH,    ImageLoader.loadImage(path + "path.png", 1));
@@ -158,7 +158,7 @@ public class ImageLoader {
 	private static void loadRescourcesIcons(String path) {
 		path += "rescources" + File.separator;
 		
-		rescourcesIcons = new HashMap<ResourcesType, BufferedImage[]>();
+		rescourcesIcons = new HashMap<>();
 		rescourcesIcons.put(ResourcesType.WOOD, ImageLoader.loadImage(path + "s_wood.png", 1));
 		rescourcesIcons.put(ResourcesType.GOLD, ImageLoader.loadImage(path + "s_gold.png", 1));
 	}
@@ -166,7 +166,7 @@ public class ImageLoader {
 	private static void loadBuildingIcons(String path) {
 		path += "building" + File.separator;
 
-		buildingIcons = new HashMap<BuildingType, BufferedImage[]>();
+		buildingIcons = new HashMap<>();
 		buildingIcons.put(BuildingType.WAREHOUSE,    ImageLoader.loadImage(path + "icon_.png", 2));
 		buildingIcons.put(BuildingType.TREE,         ImageLoader.loadImage(path + "icon_tree.png", 2));
 		buildingIcons.put(BuildingType.GRAIN,        ImageLoader.loadImage(path + "icon_grain.png", 2));
@@ -178,7 +178,7 @@ public class ImageLoader {
 	private static void loadPlayerImage() {
 		final String path = ROOT_IMAGE_PATH + "player" + File.separator;
 		
-		playerImage = new HashMap<String, BufferedImage[]>();
+		playerImage = new HashMap<>();
 		playerImage.put(MoveTo.S.toString(), ImageLoader.loadImage(path + "player_WalkDown.png", 4));
 		playerImage.put(MoveTo.W.toString(), ImageLoader.loadImage(path + "player_WalkLeft.png", 4));
 		playerImage.put(MoveTo.E.toString(), ImageLoader.loadImage(path + "player_WalkRight.png", 4));

@@ -46,7 +46,7 @@ public class SpriteSet {
     }
 
     public <T> List<T> getActorsByClass(final Class<T> ofClass) {
-        final List<T> tList = new ArrayList<T>();
+        final List<T> tList = new ArrayList<>();
         for (final var sprite : actors) {
             if (ofClass.isInstance(sprite)) {
                 tList.add((T) sprite);

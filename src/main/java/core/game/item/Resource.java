@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "item")
 public class Resource implements InterfaceXMLEntity {
 
-	private BufferedImage s_icon;
+	private BufferedImage sIcon;
 
 	@XmlElement(name = "type")
 	@XmlJavaTypeAdapter(ResourcesTypeAdapter.class)
@@ -31,7 +31,7 @@ public class Resource implements InterfaceXMLEntity {
 		this.name = name;
 		this.description = description;
 
-        s_icon = ImageLoader.getRescourcesIcons(type);
+        sIcon = ImageLoader.getRescourcesIcons(type);
 	}
 
 	public final String getName() {
@@ -62,6 +62,6 @@ public class Resource implements InterfaceXMLEntity {
 	}
 
 	public final BufferedImage getSIcon() {
-		return s_icon;
+		return sIcon;
 	}
 }

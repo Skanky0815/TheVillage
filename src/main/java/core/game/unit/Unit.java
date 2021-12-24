@@ -52,7 +52,6 @@ public abstract class Unit extends GameObject implements Moveable {
 		 	case E -> new Rectangle2D.Double(x + fieldSize + offset, y + offset, size, size);
 		 	case S -> new Rectangle2D.Double(x + offset, y + fieldSize + offset, size, size);
 		 	case W -> new Rectangle2D.Double(x - fieldSize + offset, y + offset, size, size);
-			default -> null;
 		};
 	}
 

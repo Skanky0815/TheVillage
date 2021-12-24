@@ -9,7 +9,7 @@ public class GameFont {
 
 	private static GameFont instance;
 	
-	private Map<GameFontTyp, Font> gameFonts;	
+	private final Map<GameFontTyp, Font> gameFonts;
 	
 	public enum GameFontTyp {
 		INFOBOX_HEADLINE, INFOBOX
@@ -17,7 +17,7 @@ public class GameFont {
 	
 	private GameFont() {
 		String timesRoman = "Times New Roman";
-		gameFonts = new HashMap<GameFontTyp, Font>();
+		gameFonts = new HashMap<>();
 		gameFonts.put(GameFontTyp.INFOBOX_HEADLINE, new Font(timesRoman, Font.BOLD, 16));
 		gameFonts.put(GameFontTyp.INFOBOX, new Font(timesRoman, Font.ROMAN_BASELINE, 12));
 	}

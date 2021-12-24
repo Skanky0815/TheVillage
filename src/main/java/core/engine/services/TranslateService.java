@@ -48,7 +48,7 @@ public class TranslateService extends AbstractService {
             }
         }
 
-        this.log.info("could not fond translation for '" + key + "'!");
+        this.log.info("could not fond translation for '%s'!".formatted(key));
         return INDICATOR_MISSING_RESOURCE;
     }
 }

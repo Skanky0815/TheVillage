@@ -4,5 +4,5 @@ import core.game.item.ResourcesType;
 
 public interface Collectable {
 
-	public ResourcesType collect();
+	ResourcesType collect();
 }

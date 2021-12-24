@@ -9,7 +9,7 @@ public abstract class Spawn extends Structure implements ActionListener {
 
     private boolean doSpawn = false;
 
-    private Timer spawnTimer;
+    private final Timer spawnTimer;
 
     public Spawn(final Point position, final int sizeX, final int sizeY) {
         super(position, sizeX, sizeY);
