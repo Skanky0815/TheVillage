@@ -3,8 +3,10 @@ package core.game.playground.mapper;
 import core.game.playground.CellType;
 import core.game.playground.mapper.adapter.CellTypeAdapter;
 import core.game.playground.mapper.adapter.PointAdapter;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.awt.*;
 

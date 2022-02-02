@@ -5,9 +5,11 @@ import java.awt.image.BufferedImage;
 import core.engine.services.InterfaceXMLEntity;
 import core.game.item.adapter.ResourcesTypeAdapter;
 import core.helper.ImageLoader;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "item")
 public class Resource implements InterfaceXMLEntity {

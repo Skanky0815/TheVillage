@@ -49,28 +49,28 @@ public class GamePanel extends Screen implements ActionListener {
 	private final InventoryService inventoryService;
 
 	public GamePanel(final long period, final int w, final int h, final Injector injector) {
-        super(period, w, h);
+		super(period, w, h);
 
-        addKeyListener(GameKeyListener.getInstance());
+		addKeyListener(GameKeyListener.getInstance());
 
 		final var inventoryService = injector.getInstance(InventoryService.class);
 		this.inventoryService = inventoryService;
 		inventory = inventoryService.getUi();
 
-        initGame();
+		initGame();
 	}
 
 	private void initGame() {
-        initBuildingList();
+		initBuildingList();
 
-        doReclaim = false;
+		doReclaim = false;
 
-        MapBuilder.getInstance();
-        new GoldVein(new Point(1,1));
-        player = new Player(MapBuilder.getInstance().getDefaultSpawnPoint());
+		MapBuilder.getInstance().createTestMap();
+		new GoldVein(new Point(1,1));
+		player = new Player(MapBuilder.getInstance().getDefaultSpawnPoint());
 
-        reclaimTimer = new Timer(8000, this);
-        reclaimTimer.start();
+		reclaimTimer = new Timer(8000, this);
+		reclaimTimer.start();
 	}
 
 	private void initBuildingList() {

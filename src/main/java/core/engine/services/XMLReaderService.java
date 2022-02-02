@@ -7,10 +7,9 @@ import java.util.List;
 import com.google.inject.Inject;
 import core.engine.components.service.AbstractService;
 import core.helper.Config;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 import org.apache.logging.log4j.Logger;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 
 /**
  * Created by RICO on 04.04.2015.

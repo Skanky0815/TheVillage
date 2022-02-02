@@ -14,9 +14,10 @@ import core.engine.Drawable;
 import core.engine.Sprite;
 import core.game.playground.mapper.Map;
 import core.helper.GuiDebugger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+
 
 public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 
@@ -49,7 +50,7 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
             final var jaxbContext = JAXBContext.newInstance(Map.class);
             final var unmarshaller = jaxbContext.createUnmarshaller();
 
-            final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getFile();
+            final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getPath();
             final Map map = (Map) unmarshaller.unmarshal(new File(path));
 
             // TODO add default spawn point bay map param
@@ -60,8 +61,8 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
                 cellList.add(CellFactory.getCell(cell.getPosition(), cell.getType()));
             }
         } catch (JAXBException e) {
-            createTestMap();
-            loadMap();
+          createTestMap();
+          loadMap();
         }
     }
 
@@ -69,9 +70,9 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 	 * Create a test map with 5x5 cells
 	 */
 	public void createTestMap() {
-        final List<core.game.playground.mapper.Cell> testCellList = new ArrayList<>();
+		final List<core.game.playground.mapper.Cell> testCellList = new ArrayList<>();
 
-        var line = 1;
+		var line = 1;
 
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(1, line), CellType.GRASS));
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(2, line), CellType.GRASS));
@@ -192,18 +193,18 @@ public final class MapBuilder extends Rectangle2D.Double implements Drawable {
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(9, line), CellType.GRASS));
 		testCellList.add(new core.game.playground.mapper.Cell(new Point(10, line), CellType.GRASS));
 
-        final var map = new Map();
-        map.setCellList(testCellList);
-        map.setHeight(line);
-        map.setWidth(line);
+		final var map = new Map();
+		map.setCellList(testCellList);
+		map.setHeight(line);
+		map.setWidth(line);
 
-        try {
-			final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getFile();
+		try {
+			final var path = getClass().getClassLoader().getResource("maps/test_map_0.xml").getPath();
 			final var jc = JAXBContext.newInstance(Map.class);
-            final var marshaller = jc.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(map, new FileOutputStream(path));
-        } catch (Exception e) {
+			final var marshaller = jc.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			marshaller.marshal(map, new FileOutputStream(path));
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}

@@ -1,6 +1,9 @@
 package core.game.playground.mapper;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+
 import java.util.ArrayList;
 import java.util.List;
 
